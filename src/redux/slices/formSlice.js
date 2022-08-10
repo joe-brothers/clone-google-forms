@@ -9,11 +9,14 @@ export const formSlice = createSlice({
   },
   reducers: {
     updateTitle: (state, action) => {
-      const { title, description } = action.payload;
+      const { title } = action.payload;
       state.title = title;
+    },
+    updateDescription: (state, action) => {
+      const { description } = action.payload;
       state.description = description;
     },
   },
 });
 
-export const { updateTitle } = formSlice.actions;
+export const { updateTitle, updateDescription } = formSlice.actions;
