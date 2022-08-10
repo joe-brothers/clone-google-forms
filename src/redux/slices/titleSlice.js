@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const formSlice = createSlice({
-  name: "formSlice",
+export const titleSlice = createSlice({
+  name: "titleSlice",
   initialState: {
     title: "",
     description: "",
-    questions: [],
   },
   reducers: {
     updateTitle: (state, action) => {
@@ -19,4 +18,4 @@ export const formSlice = createSlice({
   },
 });
 
-export const { updateTitle, updateDescription } = formSlice.actions;
+export const { updateTitle, updateDescription } = titleSlice.actions;
