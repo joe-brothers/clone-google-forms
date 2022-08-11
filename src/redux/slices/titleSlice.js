@@ -5,8 +5,15 @@ export const titleSlice = createSlice({
   initialState: {
     title: "",
     description: "",
+    isFocused: false,
   },
   reducers: {
+    focusTitleCard: (state) => {
+      state.isFocused = true;
+    },
+    unfocusTitleCard: (state) => {
+      state.isFocused = false;
+    },
     updateTitle: (state, action) => {
       const { title } = action.payload;
       state.title = title;
@@ -18,4 +25,9 @@ export const titleSlice = createSlice({
   },
 });
 
-export const { updateTitle, updateDescription } = titleSlice.actions;
+export const {
+  focusTitleCard,
+  unfocusTitleCard,
+  updateTitle,
+  updateDescription,
+} = titleSlice.actions;

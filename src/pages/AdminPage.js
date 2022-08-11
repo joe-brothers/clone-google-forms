@@ -1,9 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { updateTitle, updateDescription } from "../redux/slices/titleSlice";
 import {
-  unfocusAllQuestions,
+  focusTitleCard,
+  unfocusTitleCard,
+  updateTitle,
+  updateDescription,
+} from "../redux/slices/titleSlice";
+import {
   focusQuestionAt,
+  unfocusQuestionAt,
   addDefaultQuestion,
   addDefaultQuestionAt,
   duplicateQuestionAt,
@@ -40,18 +45,37 @@ export const AdminPage = () => {
   const dispatch = useDispatch();
   const addRef = useRef();
   const questionsRef = useRef([]);
-  const { title, description } = useSelector((state) => state.formTitle);
+  const {
+    title,
+    description,
+    isFocused: isTitleFocused,
+  } = useSelector((state) => state.formTitle);
   const { questions } = useSelector((state) => state.formContent);
 
   const onClickPreview = () => {
     navigate("/preview", { state: { title, description } });
   };
 
-  const onClickDuplicate = (index) => {
-    dispatch(duplicateQuestionAt({ index }));
+  const unfocusAllQuestions = () => {
+    if (questions.length === 0) return;
+    [...Array(questions.length).keys()].forEach((index) => {
+      dispatch(unfocusQuestionAt({ index }));
+    });
   };
-  const onClickRemove = (index) => {
+
+  const onClickDuplicateQuestion = (index) => {
+    dispatch(duplicateQuestionAt({ index }));
+    dispatch(unfocusQuestionAt({ index }));
+  };
+  const onClickRemoveQuestion = (index) => {
     dispatch(removeQuestionAt({ index }));
+    if (questions.length === 0) return;
+    if (index === 0) dispatch(focusQuestionAt(0));
+    else dispatch(focusQuestionAt(index - 1));
+  };
+  const onClickAddQuestion = (index) => {
+    dispatch(addDefaultQuestionAt({ index }));
+    dispatch(unfocusQuestionAt({ index }));
   };
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
@@ -82,8 +106,17 @@ export const AdminPage = () => {
       style={{ display: "flex", position: "relative" }}
     >
       <button onClick={onClickPreview}>미리보기</button>
-
-      <Card style={{ width: 700 }}>
+      {/* title card 시작 */}
+      <Card
+        style={{
+          border: isTitleFocused ? `1px solid ${purple.primary}` : "none",
+          width: 700,
+        }}
+        onClick={() => {
+          unfocusAllQuestions();
+          dispatch(focusTitleCard());
+        }}
+      >
         <Input
           size="large"
           placeholder="설문지 제목"
@@ -99,25 +132,39 @@ export const AdminPage = () => {
           }}
         />
       </Card>
+      {/* title card 끝 */}
+
       {questions.map(
         ({ title, type, optionList, hasEtc, isRequired, isFocused }, index) => {
           return (
             <Card
               key={`question_${index}`}
+              className="card"
               style={{
                 position: "relative",
                 width: 700,
                 border: isFocused ? `1px solid ${purple.primary}` : "none",
               }}
-              onClick={() => dispatch(focusQuestionAt({ index }))}
+              onClick={(e) => {
+                if (
+                  e.target.className === "duplicate" ||
+                  e.target.className === "add" ||
+                  e.target.className === "remove"
+                ) {
+                  return;
+                }
+                dispatch(unfocusTitleCard());
+                unfocusAllQuestions();
+                dispatch(focusQuestionAt({ index }));
+              }}
             >
               {isFocused && (
                 <button
                   onClick={() => {
-                    dispatch(unfocusAllQuestions());
-                    dispatch(addDefaultQuestionAt({ index: index + 1 }));
+                    onClickAddQuestion(index);
                   }}
                   style={{ position: "absolute", top: 0, right: "-12%" }}
+                  className="add"
                 >
                   질문 추가
                 </button>
@@ -278,10 +325,18 @@ export const AdminPage = () => {
 
                 {isFocused && (
                   <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-                    <button onClick={() => onClickDuplicate(index)}>
+                    <button
+                      onClick={() => onClickDuplicateQuestion(index)}
+                      className="duplicate"
+                    >
                       복사
                     </button>
-                    <button onClick={() => onClickRemove(index)}>삭제</button>
+                    <button
+                      onClick={() => onClickRemoveQuestion(index)}
+                      className="remove"
+                    >
+                      삭제
+                    </button>
                     <Divider type="vertical" />
                     <Space>필수</Space>
                     <Switch

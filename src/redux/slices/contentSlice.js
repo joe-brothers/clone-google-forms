@@ -15,17 +15,13 @@ export const contentSlice = createSlice({
     ],
   },
   reducers: {
-    unfocusAllQuestions: (state, action) => {
-      state.questions.forEach((question) => {
-        question.isFocused = false;
-      });
-    },
     focusQuestionAt: (state, action) => {
       const { index } = action.payload;
-      state.questions.forEach((question) => {
-        question.isFocused = false;
-      });
       state.questions[index].isFocused = true;
+    },
+    unfocusQuestionAt: (state, action) => {
+      const { index } = action.payload;
+      state.questions[index].isFocused = false;
     },
     addDefaultQuestion: (state, action) => {
       let defaultQuestion = {
@@ -89,8 +85,8 @@ export const contentSlice = createSlice({
 });
 
 export const {
-  unfocusAllQuestions,
   focusQuestionAt,
+  unfocusQuestionAt,
   addDefaultQuestion,
   addDefaultQuestionAt,
   duplicateQuestionAt,
