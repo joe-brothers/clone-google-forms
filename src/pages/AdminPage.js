@@ -6,6 +6,7 @@ import {
   focusQuestionAt,
   addDefaultQuestion,
   addDefaultQuestionAt,
+  copyQuestionAt,
   changeQuestionType,
 } from "../redux/slices/contentSlice";
 import { Space, Input, Card, Select, Radio } from "antd";
@@ -26,7 +27,9 @@ export const AdminPage = () => {
     navigate("/preview", { state: { title, description } });
   };
 
-  const onCopyClick = (index) => {};
+  const onCopyClick = (index) => {
+    dispatch(copyQuestionAt({ index }));
+  };
 
   useEffect(() => {
     if (!addRef.current) return;
@@ -102,7 +105,7 @@ export const AdminPage = () => {
                 {answer}
                 {isFocused && (
                   <Space style={{ width: "100%" }}>
-                    <button>복사</button>
+                    <button onClick={() => onCopyClick(index)}>복사</button>
                     <button>삭제</button>
                     <button>필수</button>
                   </Space>
