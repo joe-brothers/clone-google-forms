@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const titleSlice = createSlice({
   name: "titleSlice",
   initialState: {
-    title: "",
-    description: "",
+    title: "제목 없는 설문지",
+    description: "설문지 설명",
     isFocused: false,
   },
   reducers: {
