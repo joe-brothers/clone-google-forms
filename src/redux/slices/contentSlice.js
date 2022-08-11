@@ -87,14 +87,12 @@ export const contentSlice = createSlice({
         question.isFocused = false;
       });
     },
-    changeType: (state, action) => {
-      const { type, index } = action.payload;
-      state.questions[index].type = type;
-      state.questions[index].answer = getAnswer(
-        type,
-        state.questions[index].optionList,
-        state.questions[index].hasEtc
-      );
+    focusQuestionAt: (state, action) => {
+      const { index } = action.payload;
+      state.questions.forEach((question) => {
+        question.isFocused = false;
+      });
+      state.questions[index].isFocused = true;
     },
     addDefaultQuestion: (state, action) => {
       let defaultQuestion = {
@@ -108,9 +106,33 @@ export const contentSlice = createSlice({
       };
       state.questions.push(defaultQuestion);
     },
+    addDefaultQuestionAt: (state, action) => {
+      const { index } = action.payload;
+      let defaultQuestion = {
+        title: "",
+        type: "radio",
+        answer: getAnswer("radio", ["옵션 1"], false),
+        optionList: ["옵션 1"],
+        hasEtc: false,
+        isRequired: false,
+        isFocused: true,
+      };
+      state.questions.splice(index, 0, defaultQuestion);
+    },
+    changeQuestionType: (state, action) => {
+      const { type, index } = action.payload;
+      const { optionList, hasEtc } = state.questions[index];
+      state.questions[index].type = type;
+      state.questions[index].answer = getAnswer(type, optionList, hasEtc);
+    },
     addOption: (state, action) => {},
   },
 });
 
-export const { unfocusAllQuestions, changeType, addDefaultQuestion } =
-  contentSlice.actions;
+export const {
+  unfocusAllQuestions,
+  focusQuestionAt,
+  addDefaultQuestion,
+  addDefaultQuestionAt,
+  changeQuestionType,
+} = contentSlice.actions;

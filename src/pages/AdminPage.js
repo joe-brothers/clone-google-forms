@@ -1,16 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateTitle, updateDescription } from "../redux/slices/titleSlice";
-import { changeType, addDefaultQuestion } from "../redux/slices/contentSlice";
+import {
+  unfocusAllQuestions,
+  focusQuestionAt,
+  addDefaultQuestion,
+  addDefaultQuestionAt,
+  changeQuestionType,
+} from "../redux/slices/contentSlice";
 import { Space, Input, Card, Select, Radio } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import "antd/dist/antd.min.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 const { Option } = Select;
 
 export const AdminPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const addRef = useRef();
+  const questionsRef = useRef([]);
   const { title, description } = useSelector((state) => state.formTitle);
   const { questions } = useSelector((state) => state.formContent);
 
@@ -18,10 +26,21 @@ export const AdminPage = () => {
     navigate("/preview", { state: { title, description } });
   };
 
+  const onCopyClick = (index) => {};
+
+  useEffect(() => {
+    if (!addRef.current) return;
+    console.log(addRef.current.getBoundingClientRect);
+  }, [addRef.current]);
+
   return (
-    <Space direction="vertical" size="large" style={{ display: "flex" }}>
+    <Space
+      direction="vertical"
+      size="large"
+      style={{ display: "flex", position: "relative" }}
+    >
       <button onClick={onPreviewClick}>미리보기</button>
-      <button onClick={() => dispatch(addDefaultQuestion())}>질문 추가</button>
+
       <Card style={{ width: 700 }}>
         <Input
           size="large"
@@ -44,10 +63,23 @@ export const AdminPage = () => {
             <Card
               key={`question_${index}`}
               style={{
+                position: "relative",
                 width: 700,
                 border: isFocused ? "1px solid blue" : "none",
               }}
+              onClick={() => dispatch(focusQuestionAt({ index }))}
             >
+              {isFocused && (
+                <button
+                  onClick={() => {
+                    dispatch(unfocusAllQuestions());
+                    dispatch(addDefaultQuestionAt({ index: index + 1 }));
+                  }}
+                  style={{ position: "absolute", top: 0, right: "-12%" }}
+                >
+                  질문 추가
+                </button>
+              )}
               <Space direction="vertical" style={{ width: "100%" }}>
                 <Space
                   style={{ width: "100%", justifyContent: "space-between" }}
@@ -56,7 +88,7 @@ export const AdminPage = () => {
                   <Select
                     defaultValue={type}
                     onSelect={(type) => {
-                      dispatch(changeType({ type, index }));
+                      dispatch(changeQuestionType({ type, index }));
                     }}
                     style={{ width: 120 }}
                   >
@@ -68,6 +100,13 @@ export const AdminPage = () => {
                   </Select>
                 </Space>
                 {answer}
+                {isFocused && (
+                  <Space style={{ width: "100%" }}>
+                    <button>복사</button>
+                    <button>삭제</button>
+                    <button>필수</button>
+                  </Space>
+                )}
               </Space>
             </Card>
           );
