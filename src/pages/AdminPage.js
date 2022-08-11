@@ -74,7 +74,7 @@ export const AdminPage = () => {
     else dispatch(focusQuestionAt(index - 1));
   };
   const onClickAddQuestion = (index) => {
-    dispatch(addDefaultQuestionAt({ index }));
+    dispatch(addDefaultQuestionAt({ index: index + 1 }));
     dispatch(unfocusQuestionAt({ index }));
   };
   const onChangeTitle = (e, index) => {
