@@ -22,6 +22,7 @@ import {
   Card,
   Select,
   Radio,
+  Checkbox,
   Switch,
   Divider,
 } from "antd";
@@ -131,7 +132,7 @@ export const AdminPage = () => {
                   ) : (
                     <>
                       <Space style={{ fontSize: 16 }}>
-                        {title}
+                        {title || "질문"}
                         {isRequired && <Text type="danger">*</Text>}
                       </Space>
                     </>
@@ -196,6 +197,69 @@ export const AdminPage = () => {
                     </Space>
                   </Radio.Group>
                 )}
+                {type === "checkbox" && (
+                  <Space direction="vertical">
+                    {optionList.map((option, indexOption) => (
+                      <Space style={{ fontSize: 14 }}>
+                        <Checkbox disabled />
+                        {isFocused ? (
+                          <Input
+                            value={option}
+                            onChange={(e) =>
+                              onChangeOption(e, index, indexOption)
+                            }
+                          />
+                        ) : (
+                          <Text>{option}</Text>
+                        )}
+                      </Space>
+                    ))}
+                    {isFocused && (
+                      <Space>
+                        <Checkbox disabled />
+                        <Button
+                          type="dashed"
+                          onClick={() => onClickAddOption(index)}
+                        >
+                          옵션 추가
+                        </Button>
+                        {!hasEtc && <Button type="link">기타 추가</Button>}
+                      </Space>
+                    )}
+                  </Space>
+                )}
+                {type === "dropdown" && (
+                  <Space direction="vertical">
+                    {optionList.map((option, indexOption) => (
+                      <Space style={{ fontSize: 14 }}>
+                        <Text>{indexOption + 1}</Text>
+                        {isFocused ? (
+                          <Input
+                            value={option}
+                            onChange={(e) =>
+                              onChangeOption(e, index, indexOption)
+                            }
+                          />
+                        ) : (
+                          <Text>{option}</Text>
+                        )}
+                      </Space>
+                    ))}
+                    {isFocused && (
+                      <Space>
+                        <Text>{optionList.length + 1}</Text>
+                        <Button
+                          type="dashed"
+                          onClick={() => onClickAddOption(index)}
+                        >
+                          옵션 추가
+                        </Button>
+                      </Space>
+                    )}
+                  </Space>
+                )}
+                {/* 답변 목록 끝 */}
+
                 {isFocused && (
                   <Space style={{ width: "100%", justifyContent: "flex-end" }}>
                     <button onClick={() => onClickDuplicate(index)}>

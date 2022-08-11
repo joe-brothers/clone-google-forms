@@ -1,70 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Space, Input, Card, Select, Radio, Checkbox, Button } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
-import "antd/dist/antd.min.css";
-const { TextArea } = Input;
-
-const getAnswer = (type, optionList, hasEtc) => {
-  switch (type) {
-    case "textShort":
-      return (
-        <Input disabled style={{ width: "50%" }} placeholder="단답형 텍스트" />
-      );
-    case "textLong":
-      return <TextArea disabled autoSize placeholder="장문형 텍스트" />;
-    case "radio":
-      return (
-        <Radio.Group>
-          <Space direction="vertical">
-            {optionList.map((option) => (
-              <Space>
-                <Radio disabled />
-                <Input value={option} />
-              </Space>
-            ))}
-            <Space>
-              <Radio disabled />
-              <Button type="dashed">옵션 추가</Button>
-              {!hasEtc && <Button type="link">기타 추가</Button>}
-            </Space>
-          </Space>
-        </Radio.Group>
-      );
-    case "checkbox":
-      return (
-        <Space direction="vertical">
-          {optionList.map((option) => (
-            <Space>
-              <Checkbox disabled />
-              <Input value={option} />
-            </Space>
-          ))}
-          <Space>
-            <Checkbox disabled />
-            <Button type="dashed">옵션 추가</Button>
-            {!hasEtc && <Button type="link">기타 추가</Button>}
-          </Space>
-        </Space>
-      );
-    case "dropdown":
-      return (
-        <Space direction="vertical">
-          {optionList.map((option, index) => (
-            <Space>
-              <Space>{index + 1}</Space>
-              <Input value={option} />
-            </Space>
-          ))}
-          <Space>
-            <Space>{optionList.length + 1}</Space>
-            <Button type="dashed">옵션 추가</Button>
-          </Space>
-        </Space>
-      );
-    default:
-      break;
-  }
-};
 
 export const contentSlice = createSlice({
   name: "contentSlice",
@@ -73,7 +7,6 @@ export const contentSlice = createSlice({
       {
         title: "제목없는 질문",
         type: "radio",
-        answer: getAnswer("radio", ["옵션 1"], false),
         optionList: ["옵션 1"],
         hasEtc: false,
         isRequired: false,
@@ -98,7 +31,6 @@ export const contentSlice = createSlice({
       let defaultQuestion = {
         title: "",
         type: "radio",
-        answer: getAnswer("radio", ["옵션 1"], false),
         optionList: ["옵션 1"],
         hasEtc: false,
         isRequired: false,
@@ -111,7 +43,6 @@ export const contentSlice = createSlice({
       let defaultQuestion = {
         title: "",
         type: "radio",
-        answer: getAnswer("radio", ["옵션 1"], false),
         optionList: ["옵션 1"],
         hasEtc: false,
         isRequired: false,
@@ -130,9 +61,7 @@ export const contentSlice = createSlice({
     },
     changeQuestionType: (state, action) => {
       const { type, index } = action.payload;
-      const { optionList, hasEtc } = state.questions[index];
       state.questions[index].type = type;
-      state.questions[index].answer = getAnswer(type, optionList, hasEtc);
     },
     changeTitleAt: (state, action) => {
       const { index, title } = action.payload;
