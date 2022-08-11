@@ -5,7 +5,7 @@ import {
   unfocusTitleCard,
   updateTitle,
   updateDescription,
-} from "../redux/slices/titleSlice";
+} from "../../redux/slices/titleSlice";
 import {
   focusQuestionAt,
   unfocusQuestionAt,
@@ -19,7 +19,7 @@ import {
   toggleRequiredAt,
   addOptionAt,
   removeOptionAt,
-} from "../redux/slices/contentSlice";
+} from "../../redux/slices/contentSlice";
 import {
   Space,
   Typography,

@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AdminPage } from "./pages/AdminPage";
-import { PreviewPage } from "./pages/PreviewPage";
+import { AdminPage, PreviewPage } from "./pages";
 
 function App() {
   return (
