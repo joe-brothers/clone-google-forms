@@ -5,8 +5,8 @@ import "antd/dist/antd.min.css";
 
 export const PreviewPage = () => {
   const { state } = useLocation();
-  const { title, description } = state;
-  // const { title, description } = useSelector((state) => state.form);
+  const { title, description } = useSelector((state) => state.formTitle);
+  const { questions } = useSelector((state) => state.formContent);
 
   return (
     <Space direction="vertical" size="large" style={{ display: "flex" }}>

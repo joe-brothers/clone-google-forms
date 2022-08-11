@@ -121,7 +121,7 @@ export const contentSlice = createSlice({
     },
     duplicateQuestionAt: (state, action) => {
       const { index } = action.payload;
-      let duplicatedQuestion = state.questions[index];
+      let duplicatedQuestion = { ...state.questions[index] };
       state.questions.splice(index + 1, 0, duplicatedQuestion);
     },
     removeQuestionAt: (state, action) => {

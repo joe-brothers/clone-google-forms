@@ -14,8 +14,9 @@ import {
 } from "../redux/slices/contentSlice";
 import { Space, Input, Card, Select, Radio } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
+import { useRef } from "react";
 import "antd/dist/antd.min.css";
-import { useEffect, useRef } from "react";
+import { purple } from "@ant-design/colors";
 const { Option } = Select;
 
 export const AdminPage = () => {
@@ -72,7 +73,7 @@ export const AdminPage = () => {
               style={{
                 position: "relative",
                 width: 700,
-                border: isFocused ? "1px solid blue" : "none",
+                border: isFocused ? `1px solid ${purple.primary}` : "none",
               }}
               onClick={() => dispatch(focusQuestionAt({ index }))}
             >
