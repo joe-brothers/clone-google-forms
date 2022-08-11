@@ -10,6 +10,7 @@ import {
   removeQuestionAt,
   changeQuestionType,
   changeTitleAt,
+  changeNthOptionAt,
   toggleRequiredAt,
   addOptionAt,
 } from "../redux/slices/contentSlice";
@@ -17,6 +18,7 @@ import {
   Space,
   Typography,
   Input,
+  Button,
   Card,
   Select,
   Radio,
@@ -27,6 +29,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { useRef } from "react";
 import "antd/dist/antd.min.css";
 import { purple } from "@ant-design/colors";
+const { TextArea } = Input;
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -51,8 +54,20 @@ export const AdminPage = () => {
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
   };
+  const onChangeOption = (e, indexQuestion, indexOption) => {
+    dispatch(
+      changeNthOptionAt({
+        indexQuestion,
+        indexOption,
+        option: e.target.value,
+      })
+    );
+  };
   const onChangeRequired = (index) => {
     dispatch(toggleRequiredAt({ index }));
+  };
+  const onClickAddOption = (index) => {
+    dispatch(addOptionAt({ index }));
   };
 
   return (
@@ -80,7 +95,10 @@ export const AdminPage = () => {
         />
       </Card>
       {questions.map(
-        ({ title, type, answer, isRequired, isFocused }, index) => {
+        (
+          { title, type, answer, optionList, hasEtc, isRequired, isFocused },
+          index
+        ) => {
           return (
             <Card
               key={`question_${index}`}
@@ -136,7 +154,51 @@ export const AdminPage = () => {
                     <Option value="dropdown">드롭다운</Option>
                   </Select>
                 </Space>
-                {answer}
+
+                {/* 답변 목록 (단답형/장문형/체크박스 등등) */}
+                {type === "textShort" && (
+                  <Input
+                    disabled
+                    style={{ width: "50%" }}
+                    placeholder="단답형 텍스트"
+                  />
+                )}
+                {type === "textLong" && (
+                  <TextArea disabled autoSize placeholder="장문형 텍스트" />
+                )}
+                {type === "radio" && (
+                  <Radio.Group>
+                    <Space direction="vertical">
+                      {optionList.map((option, indexOption) => (
+                        <Space>
+                          <Radio disabled />
+                          {isFocused ? (
+                            <Input
+                              value={option}
+                              onChange={(e) =>
+                                onChangeOption(e, index, indexOption)
+                              }
+                            />
+                          ) : (
+                            <Text>{option}</Text>
+                          )}
+                        </Space>
+                      ))}
+                      {isFocused && (
+                        <Space>
+                          <Radio disabled />
+                          <Button
+                            type="dashed"
+                            onClick={() => onClickAddOption(index)}
+                          >
+                            옵션 추가
+                          </Button>
+                          {!hasEtc && <Button type="link">기타 추가</Button>}
+                        </Space>
+                      )}
+                    </Space>
+                  </Radio.Group>
+                )}
                 {isFocused && (
                   <Space style={{ width: "100%", justifyContent: "flex-end" }}>
                     <button onClick={() => onClickDuplicate(index)}>

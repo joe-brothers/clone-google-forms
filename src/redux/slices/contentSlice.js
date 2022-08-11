@@ -138,6 +138,10 @@ export const contentSlice = createSlice({
       const { index, title } = action.payload;
       state.questions[index].title = title;
     },
+    changeNthOptionAt: (state, action) => {
+      const { indexQuestion, indexOption, option } = action.payload;
+      state.questions[indexQuestion].optionList[indexOption] = option;
+    },
     addOptionAt: (state, action) => {
       const { index } = action.payload;
       state.questions[index].optionList.push(
@@ -147,7 +151,7 @@ export const contentSlice = createSlice({
     toggleRequiredAt: (state, action) => {
       const { index } = action.payload;
       state.questions[index].isRequired = !state.questions[index].isRequired;
-    }
+    },
   },
 });
 
@@ -160,6 +164,7 @@ export const {
   removeQuestionAt,
   changeQuestionType,
   changeTitleAt,
+  changeNthOptionAt,
   toggleRequiredAt,
   addOptionAt,
 } = contentSlice.actions;
