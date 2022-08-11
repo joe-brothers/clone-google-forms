@@ -95,10 +95,7 @@ export const AdminPage = () => {
         />
       </Card>
       {questions.map(
-        (
-          { title, type, answer, optionList, hasEtc, isRequired, isFocused },
-          index
-        ) => {
+        ({ title, type, optionList, hasEtc, isRequired, isFocused }, index) => {
           return (
             <Card
               key={`question_${index}`}
@@ -170,7 +167,7 @@ export const AdminPage = () => {
                   <Radio.Group>
                     <Space direction="vertical">
                       {optionList.map((option, indexOption) => (
-                        <Space>
+                        <Space style={{ fontSize: 14 }}>
                           <Radio disabled />
                           {isFocused ? (
                             <Input
