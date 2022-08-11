@@ -154,39 +154,37 @@ export const FormContent = () => {
                 {type === "textShort" && <OptionTextShort />}
                 {type === "textLong" && <OptionTextLong />}
                 {type === "radio" && (
-                  <Radio.Group>
-                    <Space direction="vertical">
-                      {optionList.map((option, indexOption) => (
-                        <Space style={{ fontSize: 14 }}>
-                          <Radio disabled />
-                          {isFocused ? (
-                            <InputSentence
-                              optionList={optionList}
-                              option={option}
-                              indexOption={indexOption}
-                              indexQuestion={indexQuestion}
-                            />
-                          ) : (
-                            <Text>{option}</Text>
-                          )}
-                        </Space>
-                      ))}
-                      {hasEtc && (
-                        <EtcSentence
-                          ComponentToCheck={Radio}
-                          isFocused={isFocused}
-                          index={indexQuestion}
-                        />
-                      )}
-                      {isFocused && (
-                        <AddOptionOrEtc
-                          ComponentToCheck={Radio}
-                          hasEtc={hasEtc}
-                          index={indexQuestion}
-                        />
-                      )}
-                    </Space>
-                  </Radio.Group>
+                  <Space direction="vertical">
+                    {optionList.map((option, indexOption) => (
+                      <Space style={{ fontSize: 14 }}>
+                        <Radio disabled />
+                        {isFocused ? (
+                          <InputSentence
+                            optionList={optionList}
+                            option={option}
+                            indexOption={indexOption}
+                            indexQuestion={indexQuestion}
+                          />
+                        ) : (
+                          <Text>{option}</Text>
+                        )}
+                      </Space>
+                    ))}
+                    {hasEtc && (
+                      <EtcSentence
+                        ComponentToCheck={Radio}
+                        isFocused={isFocused}
+                        index={indexQuestion}
+                      />
+                    )}
+                    {isFocused && (
+                      <AddOptionOrEtc
+                        ComponentToCheck={Radio}
+                        hasEtc={hasEtc}
+                        index={indexQuestion}
+                      />
+                    )}
+                  </Space>
                 )}
                 {type === "checkbox" && (
                   <Space direction="vertical">
