@@ -6,7 +6,7 @@ import {
   focusQuestionAt,
   addDefaultQuestion,
   addDefaultQuestionAt,
-  copyQuestionAt,
+  duplicateQuestionAt,
   removeQuestionAt,
   changeQuestionType,
   changeTitleAt,
@@ -26,14 +26,14 @@ export const AdminPage = () => {
   const { title, description } = useSelector((state) => state.formTitle);
   const { questions } = useSelector((state) => state.formContent);
 
-  const onPreviewClick = () => {
+  const onClickPreview = () => {
     navigate("/preview", { state: { title, description } });
   };
 
-  const onCopyClick = (index) => {
-    dispatch(copyQuestionAt({ index }));
+  const onClickDuplicate = (index) => {
+    dispatch(duplicateQuestionAt({ index }));
   };
-  const onRemoveClick = (index) => {
+  const onClickRemove = (index) => {
     dispatch(removeQuestionAt({ index }));
   };
   const onChangeTitle = (e, index) => {
@@ -46,7 +46,7 @@ export const AdminPage = () => {
       size="large"
       style={{ display: "flex", position: "relative" }}
     >
-      <button onClick={onPreviewClick}>미리보기</button>
+      <button onClick={onClickPreview}>미리보기</button>
 
       <Card style={{ width: 700 }}>
         <Input
@@ -114,8 +114,10 @@ export const AdminPage = () => {
                 {answer}
                 {isFocused && (
                   <Space style={{ width: "100%" }}>
-                    <button onClick={() => onCopyClick(index)}>복사</button>
-                    <button onClick={() => onRemoveClick(index)}>삭제</button>
+                    <button onClick={() => onClickDuplicate(index)}>
+                      복사
+                    </button>
+                    <button onClick={() => onClickRemove(index)}>삭제</button>
                     <button>필수</button>
                   </Space>
                 )}

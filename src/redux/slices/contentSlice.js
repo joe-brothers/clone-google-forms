@@ -119,10 +119,10 @@ export const contentSlice = createSlice({
       };
       state.questions.splice(index, 0, defaultQuestion);
     },
-    copyQuestionAt: (state, action) => {
+    duplicateQuestionAt: (state, action) => {
       const { index } = action.payload;
-      let copyedQuestion = state.questions[index];
-      state.questions.splice(index + 1, 0, copyedQuestion);
+      let duplicatedQuestion = state.questions[index];
+      state.questions.splice(index + 1, 0, duplicatedQuestion);
     },
     removeQuestionAt: (state, action) => {
       const { index } = action.payload;
@@ -152,7 +152,7 @@ export const {
   focusQuestionAt,
   addDefaultQuestion,
   addDefaultQuestionAt,
-  copyQuestionAt,
+  duplicateQuestionAt,
   removeQuestionAt,
   changeQuestionType,
   changeTitleAt,
