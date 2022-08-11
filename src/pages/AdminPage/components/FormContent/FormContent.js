@@ -1,21 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { unfocusTitleCard } from "../../../redux/slices/titleSlice";
+import { unfocusTitleCard } from "../../../../redux/slices/titleSlice";
 import {
   focusQuestionAt,
   unfocusQuestionAt,
-  addDefaultQuestion,
   addDefaultQuestionAt,
-  duplicateQuestionAt,
-  removeQuestionAt,
   changeQuestionType,
   changeTitleAt,
-  changeNthOptionAt,
-  toggleRequiredAt,
   addOptionAt,
-  addEtcOfOptionAt,
-  removeEtcOfOptionAt,
-  removeOptionAt,
-} from "../../../redux/slices/contentSlice";
+} from "../../../../redux/slices/contentSlice";
 import {
   Space,
   Typography,
@@ -25,16 +17,15 @@ import {
   Select,
   Radio,
   Checkbox,
-  Switch,
-  Divider,
 } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { purple, grey } from "@ant-design/colors";
-import "antd/dist/antd.min.css";
 import { OptionTextLong, OptionTextShort } from "./OptionText";
 import { EtcSentence } from "./EtcSentence";
 import { AddOptionOrEtc } from "./AddOptionOrEtc";
 import { InputSentence } from "./InputSentence";
+import { QuestionSetting } from "./QuestionSetting";
+import "antd/dist/antd.min.css";
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -49,17 +40,6 @@ export const FormContent = () => {
     });
   };
 
-  const onClickDuplicateQuestion = (index) => {
-    dispatch(duplicateQuestionAt({ index }));
-    dispatch(unfocusQuestionAt({ index }));
-  };
-
-  const onClickRemoveQuestion = (index) => {
-    dispatch(removeQuestionAt({ index }));
-    if (questions.length === 0) return;
-    if (index === 0) dispatch(focusQuestionAt(0));
-    else dispatch(focusQuestionAt(index - 1));
-  };
   const onClickAddQuestion = (index) => {
     dispatch(addDefaultQuestionAt({ index: index + 1 }));
     dispatch(unfocusQuestionAt({ index }));
@@ -67,9 +47,7 @@ export const FormContent = () => {
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
   };
-  const onChangeRequired = (index) => {
-    dispatch(toggleRequiredAt({ index }));
-  };
+
   const onClickAddOption = (index) => {
     dispatch(addOptionAt({ index }));
   };
@@ -252,26 +230,10 @@ export const FormContent = () => {
                 {/* 답변 목록 끝 */}
 
                 {isFocused && (
-                  <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-                    <button
-                      onClick={() => onClickDuplicateQuestion(indexQuestion)}
-                      className="duplicate"
-                    >
-                      복사
-                    </button>
-                    <button
-                      onClick={() => onClickRemoveQuestion(indexQuestion)}
-                      className="remove"
-                    >
-                      삭제
-                    </button>
-                    <Divider type="vertical" />
-                    <Space>필수</Space>
-                    <Switch
-                      checked={isRequired}
-                      onChange={() => onChangeRequired(indexQuestion)}
-                    />
-                  </Space>
+                  <QuestionSetting
+                    indexQuestion={indexQuestion}
+                    isRequired={isRequired}
+                  />
                 )}
               </Space>
             </Card>

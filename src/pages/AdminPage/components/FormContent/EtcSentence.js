@@ -2,7 +2,7 @@ import { grey } from "@ant-design/colors";
 import { CloseOutlined } from "@ant-design/icons";
 import { Input, Space, Typography } from "antd";
 import { useDispatch } from "react-redux";
-import { removeEtcOfOptionAt } from "../../../redux/slices/contentSlice";
+import { removeEtcOfOptionAt } from "../../../../redux/slices/contentSlice";
 import "antd/dist/antd.min.css";
 const { Text } = Typography;
 

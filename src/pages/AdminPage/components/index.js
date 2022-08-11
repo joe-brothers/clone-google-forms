@@ -1,4 +1,4 @@
 import { FormTitle } from "./FormTitle";
-import { FormContent } from "./\bFormContent";
+import { FormContent } from "./FormContent";
 
 export { FormTitle, FormContent };

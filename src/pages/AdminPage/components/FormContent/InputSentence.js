@@ -4,7 +4,7 @@ import { Input } from "antd";
 import {
   changeNthOptionAt,
   removeOptionAt,
-} from "../../../redux/slices/contentSlice";
+} from "../../../../redux/slices/contentSlice";
 import "antd/dist/antd.min.css";
 
 export const InputSentence = ({

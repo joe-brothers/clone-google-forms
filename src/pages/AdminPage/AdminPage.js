@@ -6,17 +6,22 @@ import "antd/dist/antd.min.css";
 
 export const AdminPage = () => {
   const navigate = useNavigate();
-  const { title, description } = useSelector((state) => state.formTitle);
 
   const onClickPreview = () => {
-    navigate("/preview", { state: { title, description } });
+    navigate("/preview");
   };
 
   return (
     <Space
       direction="vertical"
       size="large"
-      style={{ display: "flex", position: "relative" }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        position: "relative",
+        paddingTop: 50,
+        paddingBottom: 50,
+      }}
     >
       <button onClick={onClickPreview}>미리보기</button>
       <FormTitle />

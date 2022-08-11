@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   addEtcOfOptionAt,
   addOptionAt,
-} from "../../../redux/slices/contentSlice";
+} from "../../../../redux/slices/contentSlice";
 
 export const AddOptionOrEtc = ({ ComponentToCheck, hasEtc, index }) => {
   const dispatch = useDispatch();
