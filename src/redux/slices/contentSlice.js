@@ -144,6 +144,10 @@ export const contentSlice = createSlice({
         `옵션 ${state.questions[index].optionList.length + 1}`
       );
     },
+    toggleRequiredAt: (state, action) => {
+      const { index } = action.payload;
+      state.questions[index].isRequired = !state.questions[index].isRequired;
+    }
   },
 });
 
@@ -156,5 +160,6 @@ export const {
   removeQuestionAt,
   changeQuestionType,
   changeTitleAt,
+  toggleRequiredAt,
   addOptionAt,
 } = contentSlice.actions;

@@ -10,14 +10,25 @@ import {
   removeQuestionAt,
   changeQuestionType,
   changeTitleAt,
+  toggleRequiredAt,
   addOptionAt,
 } from "../redux/slices/contentSlice";
-import { Space, Input, Card, Select, Radio } from "antd";
+import {
+  Space,
+  Typography,
+  Input,
+  Card,
+  Select,
+  Radio,
+  Switch,
+  Divider,
+} from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { useRef } from "react";
 import "antd/dist/antd.min.css";
 import { purple } from "@ant-design/colors";
 const { Option } = Select;
+const { Text } = Typography;
 
 export const AdminPage = () => {
   const navigate = useNavigate();
@@ -39,6 +50,9 @@ export const AdminPage = () => {
   };
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
+  };
+  const onChangeRequired = (index) => {
+    dispatch(toggleRequiredAt({ index }));
   };
 
   return (
@@ -92,15 +106,25 @@ export const AdminPage = () => {
                 <Space
                   style={{ width: "100%", justifyContent: "space-between" }}
                 >
-                  <Input
-                    size="large"
-                    placeholder="질문"
-                    value={title}
-                    onChange={(e) => onChangeTitle(e, index)}
-                  />
+                  {isFocused ? (
+                    <Input
+                      size="large"
+                      placeholder="질문"
+                      value={title}
+                      onChange={(e) => onChangeTitle(e, index)}
+                    />
+                  ) : (
+                    <>
+                      <Space style={{ fontSize: 16 }}>
+                        {title}
+                        {isRequired && <Text type="danger">*</Text>}
+                      </Space>
+                    </>
+                  )}
                   <Select
                     defaultValue={type}
                     onSelect={(type) => {
+                      console.log(type);
                       dispatch(changeQuestionType({ type, index }));
                     }}
                     style={{ width: 120 }}
@@ -114,12 +138,17 @@ export const AdminPage = () => {
                 </Space>
                 {answer}
                 {isFocused && (
-                  <Space style={{ width: "100%" }}>
+                  <Space style={{ width: "100%", justifyContent: "flex-end" }}>
                     <button onClick={() => onClickDuplicate(index)}>
                       복사
                     </button>
                     <button onClick={() => onClickRemove(index)}>삭제</button>
-                    <button>필수</button>
+                    <Divider type="vertical" />
+                    <Space>필수</Space>
+                    <Switch
+                      checked={isRequired}
+                      onChange={() => onChangeRequired(index)}
+                    />
                   </Space>
                 )}
               </Space>
