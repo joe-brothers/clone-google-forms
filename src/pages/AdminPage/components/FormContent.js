@@ -67,7 +67,6 @@ export const FormContent = () => {
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
   };
-
   const onChangeRequired = (index) => {
     dispatch(toggleRequiredAt({ index }));
   };
@@ -78,10 +77,13 @@ export const FormContent = () => {
   return (
     <Space direction="vertical" size="large">
       {questions.map(
-        ({ title, type, optionList, hasEtc, isRequired, isFocused }, index) => {
+        (
+          { title, type, optionList, hasEtc, isRequired, isFocused },
+          indexQuestion
+        ) => {
           return (
             <Card
-              key={`question_${index}`}
+              key={`question_${indexQuestion}`}
               className="card"
               style={{
                 position: "relative",
@@ -98,13 +100,13 @@ export const FormContent = () => {
                 }
                 dispatch(unfocusTitleCard());
                 unfocusAllQuestions();
-                dispatch(focusQuestionAt({ index }));
+                dispatch(focusQuestionAt({ index: indexQuestion }));
               }}
             >
               {isFocused && (
                 <button
                   onClick={() => {
-                    onClickAddQuestion(index);
+                    onClickAddQuestion(indexQuestion);
                   }}
                   style={{ position: "absolute", top: 0, right: "-12%" }}
                   className="add"
@@ -121,7 +123,7 @@ export const FormContent = () => {
                       size="large"
                       placeholder="질문"
                       value={title}
-                      onChange={(e) => onChangeTitle(e, index)}
+                      onChange={(e) => onChangeTitle(e, indexQuestion)}
                     />
                   ) : (
                     <>
@@ -134,7 +136,9 @@ export const FormContent = () => {
                   <Select
                     defaultValue={type}
                     onSelect={(type) => {
-                      dispatch(changeQuestionType({ type, index }));
+                      dispatch(
+                        changeQuestionType({ type, index: indexQuestion })
+                      );
                     }}
                     style={{ width: 120 }}
                   >
@@ -160,7 +164,7 @@ export const FormContent = () => {
                               optionList={optionList}
                               option={option}
                               indexOption={indexOption}
-                              indexQuestion={index}
+                              indexQuestion={indexQuestion}
                             />
                           ) : (
                             <Text>{option}</Text>
@@ -171,14 +175,14 @@ export const FormContent = () => {
                         <EtcSentence
                           ComponentToCheck={Radio}
                           isFocused={isFocused}
-                          index={index}
+                          index={indexQuestion}
                         />
                       )}
                       {isFocused && (
                         <AddOptionOrEtc
                           ComponentToCheck={Radio}
                           hasEtc={hasEtc}
-                          index={index}
+                          index={indexQuestion}
                         />
                       )}
                     </Space>
@@ -194,7 +198,7 @@ export const FormContent = () => {
                             optionList={optionList}
                             option={option}
                             indexOption={indexOption}
-                            indexQuestion={index}
+                            indexQuestion={indexQuestion}
                           />
                         ) : (
                           <Text>{option}</Text>
@@ -205,14 +209,14 @@ export const FormContent = () => {
                       <EtcSentence
                         ComponentToCheck={Checkbox}
                         isFocused={isFocused}
-                        index={index}
+                        index={indexQuestion}
                       />
                     )}
                     {isFocused && (
                       <AddOptionOrEtc
                         ComponentToCheck={Checkbox}
                         hasEtc={hasEtc}
-                        index={index}
+                        index={indexQuestion}
                       />
                     )}
                   </Space>
@@ -227,7 +231,7 @@ export const FormContent = () => {
                             optionList={optionList}
                             option={option}
                             indexOption={indexOption}
-                            indexQuestion={index}
+                            indexQuestion={indexQuestion}
                           />
                         ) : (
                           <Text>{option}</Text>
@@ -239,7 +243,7 @@ export const FormContent = () => {
                         <Text>{optionList.length + 1}</Text>
                         <Button
                           type="dashed"
-                          onClick={() => onClickAddOption(index)}
+                          onClick={() => onClickAddOption(indexQuestion)}
                         >
                           옵션 추가
                         </Button>
@@ -252,13 +256,13 @@ export const FormContent = () => {
                 {isFocused && (
                   <Space style={{ width: "100%", justifyContent: "flex-end" }}>
                     <button
-                      onClick={() => onClickDuplicateQuestion(index)}
+                      onClick={() => onClickDuplicateQuestion(indexQuestion)}
                       className="duplicate"
                     >
                       복사
                     </button>
                     <button
-                      onClick={() => onClickRemoveQuestion(index)}
+                      onClick={() => onClickRemoveQuestion(indexQuestion)}
                       className="remove"
                     >
                       삭제
@@ -267,7 +271,7 @@ export const FormContent = () => {
                     <Space>필수</Space>
                     <Switch
                       checked={isRequired}
-                      onChange={() => onChangeRequired(index)}
+                      onChange={() => onChangeRequired(indexQuestion)}
                     />
                   </Space>
                 )}
