@@ -77,6 +77,14 @@ export const contentSlice = createSlice({
         `옵션 ${state.questions[index].optionList.length + 1}`
       );
     },
+    addEtcOfOptionAt: (state, action) => {
+      const { index } = action.payload;
+      state.questions[index].hasEtc = true;
+    },
+    removeEtcOfOptionAt: (state, action) => {
+      const { index } = action.payload;
+      state.questions[index].hasEtc = false;
+    },
     removeOptionAt: (state, action) => {
       const { indexQuestion, indexOption } = action.payload;
       state.questions[indexQuestion].optionList.splice(indexOption, 1);
@@ -96,5 +104,7 @@ export const {
   changeNthOptionAt,
   toggleRequiredAt,
   addOptionAt,
+  addEtcOfOptionAt,
+  removeEtcOfOptionAt,
   removeOptionAt,
 } = contentSlice.actions;

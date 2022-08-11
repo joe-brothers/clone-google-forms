@@ -4,7 +4,7 @@ export const titleSlice = createSlice({
   name: "titleSlice",
   initialState: {
     title: "제목 없는 설문지",
-    description: "설문지 설명",
+    description: "",
     isFocused: false,
   },
   reducers: {

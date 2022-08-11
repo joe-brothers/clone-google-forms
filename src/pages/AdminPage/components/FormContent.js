@@ -12,6 +12,8 @@ import {
   changeNthOptionAt,
   toggleRequiredAt,
   addOptionAt,
+  addEtcOfOptionAt,
+  removeEtcOfOptionAt,
   removeOptionAt,
 } from "../../../redux/slices/contentSlice";
 import {
@@ -27,7 +29,7 @@ import {
   Divider,
 } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { purple } from "@ant-design/colors";
+import { purple, grey } from "@ant-design/colors";
 import "antd/dist/antd.min.css";
 import { OptionTextLong, OptionTextShort } from "./OptionText";
 const { Option } = Select;
@@ -76,6 +78,12 @@ export const FormContent = () => {
   };
   const onClickAddOption = (index) => {
     dispatch(addOptionAt({ index }));
+  };
+  const onClickAddEtc = (index) => {
+    dispatch(addEtcOfOptionAt({ index }));
+  };
+  const onClickRemoveEtc = (index) => {
+    dispatch(removeEtcOfOptionAt({ index }));
   };
   const onClickRemoveOption = ({ indexQuestion, indexOption }) => {
     dispatch(removeOptionAt({ indexQuestion, indexOption }));
@@ -186,6 +194,25 @@ export const FormContent = () => {
                           )}
                         </Space>
                       ))}
+                      {hasEtc && (
+                        <Space style={{ fontSize: 14 }}>
+                          <Radio disabled />
+                          {isFocused ? (
+                            <Input disabled value="기타..." />
+                          ) : (
+                            <Text style={{ color: grey[3] }}>기타...</Text>
+                          )}
+                          {isFocused && (
+                            <CloseOutlined
+                              style={{
+                                position: "absolute",
+                                right: 30,
+                              }}
+                              onClick={() => onClickRemoveEtc(index)}
+                            />
+                          )}
+                        </Space>
+                      )}
                       {isFocused && (
                         <Space>
                           <Radio disabled />
@@ -195,7 +222,16 @@ export const FormContent = () => {
                           >
                             옵션 추가
                           </Button>
-                          {!hasEtc && <Button type="link">기타 추가</Button>}
+                          {!hasEtc && (
+                            <Button
+                              type="link"
+                              onClick={() => {
+                                onClickAddEtc(index);
+                              }}
+                            >
+                              기타 추가
+                            </Button>
+                          )}
                         </Space>
                       )}
                     </Space>
@@ -218,6 +254,25 @@ export const FormContent = () => {
                         )}
                       </Space>
                     ))}
+                    {hasEtc && (
+                      <Space style={{ fontSize: 14 }}>
+                        <Checkbox disabled />
+                        {isFocused ? (
+                          <Input disabled value="기타..." />
+                        ) : (
+                          <Text style={{ color: grey[3] }}>기타...</Text>
+                        )}
+                        {isFocused && (
+                          <CloseOutlined
+                            style={{
+                              position: "absolute",
+                              right: 30,
+                            }}
+                            onClick={() => onClickRemoveEtc(index)}
+                          />
+                        )}
+                      </Space>
+                    )}
                     {isFocused && (
                       <Space>
                         <Checkbox disabled />
@@ -227,7 +282,16 @@ export const FormContent = () => {
                         >
                           옵션 추가
                         </Button>
-                        {!hasEtc && <Button type="link">기타 추가</Button>}
+                        {!hasEtc && (
+                          <Button
+                            type="link"
+                            onClick={() => {
+                              onClickAddEtc(index);
+                            }}
+                          >
+                            기타 추가
+                          </Button>
+                        )}
                       </Space>
                     )}
                   </Space>
