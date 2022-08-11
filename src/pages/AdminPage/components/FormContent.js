@@ -32,6 +32,9 @@ import { CloseOutlined } from "@ant-design/icons";
 import { purple, grey } from "@ant-design/colors";
 import "antd/dist/antd.min.css";
 import { OptionTextLong, OptionTextShort } from "./OptionText";
+import { EtcSentence } from "./EtcSentence";
+import { AddOptionOrEtc } from "./AddOptionOrEtc";
+import { InputSentence } from "./InputSentence";
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -64,29 +67,12 @@ export const FormContent = () => {
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
   };
-  const onChangeOption = (e, indexQuestion, indexOption) => {
-    dispatch(
-      changeNthOptionAt({
-        indexQuestion,
-        indexOption,
-        option: e.target.value,
-      })
-    );
-  };
+
   const onChangeRequired = (index) => {
     dispatch(toggleRequiredAt({ index }));
   };
   const onClickAddOption = (index) => {
     dispatch(addOptionAt({ index }));
-  };
-  const onClickAddEtc = (index) => {
-    dispatch(addEtcOfOptionAt({ index }));
-  };
-  const onClickRemoveEtc = (index) => {
-    dispatch(removeEtcOfOptionAt({ index }));
-  };
-  const onClickRemoveOption = ({ indexQuestion, indexOption }) => {
-    dispatch(removeOptionAt({ indexQuestion, indexOption }));
   };
 
   return (
@@ -170,69 +156,30 @@ export const FormContent = () => {
                         <Space style={{ fontSize: 14 }}>
                           <Radio disabled />
                           {isFocused ? (
-                            <>
-                              <Input
-                                value={option}
-                                onChange={(e) =>
-                                  onChangeOption(e, index, indexOption)
-                                }
-                              />
-                              {optionList.length > 1 && (
-                                <CloseOutlined
-                                  style={{ position: "absolute", right: 30 }}
-                                  onClick={() =>
-                                    onClickRemoveOption({
-                                      indexQuestion: index,
-                                      indexOption,
-                                    })
-                                  }
-                                />
-                              )}
-                            </>
+                            <InputSentence
+                              optionList={optionList}
+                              option={option}
+                              indexOption={indexOption}
+                              indexQuestion={index}
+                            />
                           ) : (
                             <Text>{option}</Text>
                           )}
                         </Space>
                       ))}
                       {hasEtc && (
-                        <Space style={{ fontSize: 14 }}>
-                          <Radio disabled />
-                          {isFocused ? (
-                            <Input disabled value="기타..." />
-                          ) : (
-                            <Text style={{ color: grey[3] }}>기타...</Text>
-                          )}
-                          {isFocused && (
-                            <CloseOutlined
-                              style={{
-                                position: "absolute",
-                                right: 30,
-                              }}
-                              onClick={() => onClickRemoveEtc(index)}
-                            />
-                          )}
-                        </Space>
+                        <EtcSentence
+                          ComponentToCheck={Radio}
+                          isFocused={isFocused}
+                          index={index}
+                        />
                       )}
                       {isFocused && (
-                        <Space>
-                          <Radio disabled />
-                          <Button
-                            type="dashed"
-                            onClick={() => onClickAddOption(index)}
-                          >
-                            옵션 추가
-                          </Button>
-                          {!hasEtc && (
-                            <Button
-                              type="link"
-                              onClick={() => {
-                                onClickAddEtc(index);
-                              }}
-                            >
-                              기타 추가
-                            </Button>
-                          )}
-                        </Space>
+                        <AddOptionOrEtc
+                          ComponentToCheck={Radio}
+                          hasEtc={hasEtc}
+                          index={index}
+                        />
                       )}
                     </Space>
                   </Radio.Group>
@@ -243,11 +190,11 @@ export const FormContent = () => {
                       <Space style={{ fontSize: 14 }}>
                         <Checkbox disabled />
                         {isFocused ? (
-                          <Input
-                            value={option}
-                            onChange={(e) =>
-                              onChangeOption(e, index, indexOption)
-                            }
+                          <InputSentence
+                            optionList={optionList}
+                            option={option}
+                            indexOption={indexOption}
+                            indexQuestion={index}
                           />
                         ) : (
                           <Text>{option}</Text>
@@ -255,44 +202,18 @@ export const FormContent = () => {
                       </Space>
                     ))}
                     {hasEtc && (
-                      <Space style={{ fontSize: 14 }}>
-                        <Checkbox disabled />
-                        {isFocused ? (
-                          <Input disabled value="기타..." />
-                        ) : (
-                          <Text style={{ color: grey[3] }}>기타...</Text>
-                        )}
-                        {isFocused && (
-                          <CloseOutlined
-                            style={{
-                              position: "absolute",
-                              right: 30,
-                            }}
-                            onClick={() => onClickRemoveEtc(index)}
-                          />
-                        )}
-                      </Space>
+                      <EtcSentence
+                        ComponentToCheck={Checkbox}
+                        isFocused={isFocused}
+                        index={index}
+                      />
                     )}
                     {isFocused && (
-                      <Space>
-                        <Checkbox disabled />
-                        <Button
-                          type="dashed"
-                          onClick={() => onClickAddOption(index)}
-                        >
-                          옵션 추가
-                        </Button>
-                        {!hasEtc && (
-                          <Button
-                            type="link"
-                            onClick={() => {
-                              onClickAddEtc(index);
-                            }}
-                          >
-                            기타 추가
-                          </Button>
-                        )}
-                      </Space>
+                      <AddOptionOrEtc
+                        ComponentToCheck={Checkbox}
+                        hasEtc={hasEtc}
+                        index={index}
+                      />
                     )}
                   </Space>
                 )}
@@ -302,11 +223,11 @@ export const FormContent = () => {
                       <Space style={{ fontSize: 14 }}>
                         <Text>{indexOption + 1}</Text>
                         {isFocused ? (
-                          <Input
-                            value={option}
-                            onChange={(e) =>
-                              onChangeOption(e, index, indexOption)
-                            }
+                          <InputSentence
+                            optionList={optionList}
+                            option={option}
+                            indexOption={indexOption}
+                            indexQuestion={index}
                           />
                         ) : (
                           <Text>{option}</Text>
