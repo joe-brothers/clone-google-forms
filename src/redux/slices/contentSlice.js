@@ -71,15 +71,19 @@ export const contentSlice = createSlice({
       const { indexQuestion, indexOption, option } = action.payload;
       state.questions[indexQuestion].optionList[indexOption] = option;
     },
+    toggleRequiredAt: (state, action) => {
+      const { index } = action.payload;
+      state.questions[index].isRequired = !state.questions[index].isRequired;
+    },
     addOptionAt: (state, action) => {
       const { index } = action.payload;
       state.questions[index].optionList.push(
         `옵션 ${state.questions[index].optionList.length + 1}`
       );
     },
-    toggleRequiredAt: (state, action) => {
-      const { index } = action.payload;
-      state.questions[index].isRequired = !state.questions[index].isRequired;
+    removeOptionAt: (state, action) => {
+      const { indexQuestion, indexOption } = action.payload;
+      state.questions[indexQuestion].optionList.splice(indexOption, 1);
     },
   },
 });
@@ -96,4 +100,5 @@ export const {
   changeNthOptionAt,
   toggleRequiredAt,
   addOptionAt,
+  removeOptionAt,
 } = contentSlice.actions;

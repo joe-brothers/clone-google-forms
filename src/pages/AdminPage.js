@@ -13,6 +13,7 @@ import {
   changeNthOptionAt,
   toggleRequiredAt,
   addOptionAt,
+  removeOptionAt,
 } from "../redux/slices/contentSlice";
 import {
   Space,
@@ -69,6 +70,9 @@ export const AdminPage = () => {
   };
   const onClickAddOption = (index) => {
     dispatch(addOptionAt({ index }));
+  };
+  const onClickRemoveOption = ({ indexQuestion, indexOption }) => {
+    dispatch(removeOptionAt({ indexQuestion, indexOption }));
   };
 
   return (
@@ -140,7 +144,6 @@ export const AdminPage = () => {
                   <Select
                     defaultValue={type}
                     onSelect={(type) => {
-                      console.log(type);
                       dispatch(changeQuestionType({ type, index }));
                     }}
                     style={{ width: 120 }}
@@ -171,12 +174,25 @@ export const AdminPage = () => {
                         <Space style={{ fontSize: 14 }}>
                           <Radio disabled />
                           {isFocused ? (
-                            <Input
-                              value={option}
-                              onChange={(e) =>
-                                onChangeOption(e, index, indexOption)
-                              }
-                            />
+                            <>
+                              <Input
+                                value={option}
+                                onChange={(e) =>
+                                  onChangeOption(e, index, indexOption)
+                                }
+                              />
+                              {optionList.length > 1 && (
+                                <CloseOutlined
+                                  style={{ position: "absolute", right: 30 }}
+                                  onClick={() =>
+                                    onClickRemoveOption({
+                                      indexQuestion: index,
+                                      indexOption,
+                                    })
+                                  }
+                                />
+                              )}
+                            </>
                           ) : (
                             <Text>{option}</Text>
                           )}
