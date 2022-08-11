@@ -21,7 +21,7 @@ export const AdminPage = () => {
   return (
     <Space direction="vertical" size="large" style={{ display: "flex" }}>
       <button onClick={onPreviewClick}>미리보기</button>
-      <button onClick={addDefaultQuestion}>질문 추가</button>
+      <button onClick={() => dispatch(addDefaultQuestion())}>질문 추가</button>
       <Card style={{ width: 700 }}>
         <Input
           size="large"
