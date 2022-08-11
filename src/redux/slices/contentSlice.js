@@ -4,51 +4,66 @@ import { CloseOutlined } from "@ant-design/icons";
 import "antd/dist/antd.min.css";
 const { TextArea } = Input;
 
-const DEFAULT_OPTIONS = {
-  textShort: (
-    <Input disabled style={{ width: "50%" }} placeholder="단답형 텍스트" />
-  ),
-  textLong: <TextArea disabled autoSize placeholder="장문형 텍스트" />,
-  radio: (
-    <Radio.Group>
-      <Space direction="vertical">
-        <Space>
-          <Radio disabled />
-          <Input value="옵션 1" />
+const getAnswer = (type, optionList, hasEtc) => {
+  switch (type) {
+    case "textShort":
+      return (
+        <Input disabled style={{ width: "50%" }} placeholder="단답형 텍스트" />
+      );
+    case "textLong":
+      return <TextArea disabled autoSize placeholder="장문형 텍스트" />;
+    case "radio":
+      return (
+        <Radio.Group>
+          <Space direction="vertical">
+            {optionList.map((option) => (
+              <Space>
+                <Radio disabled />
+                <Input value={option} />
+              </Space>
+            ))}
+            <Space>
+              <Radio disabled />
+              <Button type="dashed">옵션 추가</Button>
+              {!hasEtc && <Button type="link">기타 추가</Button>}
+            </Space>
+          </Space>
+        </Radio.Group>
+      );
+    case "checkbox":
+      return (
+        <Space direction="vertical">
+          {optionList.map((option) => (
+            <Space>
+              <Checkbox disabled />
+              <Input value={option} />
+            </Space>
+          ))}
+          <Space>
+            <Checkbox disabled />
+            <Button type="dashed">옵션 추가</Button>
+            {!hasEtc && <Button type="link">기타 추가</Button>}
+          </Space>
         </Space>
-        <Space>
-          <Radio disabled />
-          <Button type="dashed">옵션 추가</Button>
-          <Button type="link">기타 추가</Button>
+      );
+    case "dropdown":
+      return (
+        <Space direction="vertical">
+          {optionList.map((option, index) => (
+            <Space>
+              <Space>{index + 1}</Space>
+              <Input value={option} />
+            </Space>
+          ))}
+          <Space>
+            <Space>{optionList.length + 1}</Space>
+            <Button type="dashed">옵션 추가</Button>
+          </Space>
         </Space>
-      </Space>
-    </Radio.Group>
-  ),
-  checkbox: (
-    <Space direction="vertical">
-      <Space>
-        <Checkbox disabled />
-        <Input value="옵션 1" />
-      </Space>
-      <Space>
-        <Checkbox disabled />
-        <Button type="dashed">옵션 추가</Button>
-        <Button type="link">기타 추가</Button>
-      </Space>
-    </Space>
-  ),
-  dropdown: (
-    <Space direction="vertical">
-      <Space>
-        <Space>1</Space>
-        <Input value="옵션 1" />
-      </Space>
-      <Space>
-        <Space>2</Space>
-        <Button type="dashed">옵션 추가</Button>
-      </Space>
-    </Space>
-  ),
+      );
+    default:
+      break;
+  }
 };
 
 export const contentSlice = createSlice({
@@ -58,7 +73,9 @@ export const contentSlice = createSlice({
       {
         title: "제목없는 질문",
         type: "radio",
-        options: DEFAULT_OPTIONS.radio,
+        answer: getAnswer("radio", ["옵션 1"], false),
+        optionList: ["옵션 1"],
+        hasEtc: false,
         isRequired: false,
         isFocused: true,
       },
@@ -72,17 +89,26 @@ export const contentSlice = createSlice({
     },
     changeType: (state, action) => {
       const { type, index } = action.payload;
-      state.questions[index].options = DEFAULT_OPTIONS[type];
+      state.questions[index].type = type;
+      state.questions[index].answer = getAnswer(
+        type,
+        state.questions[index].optionList,
+        state.questions[index].hasEtc
+      );
     },
     addDefaultQuestion: (state, action) => {
       let defaultQuestion = {
         title: "",
         type: "radio",
-        options: [{ isEtc: false, optionTitle: "옵션 1" }],
+        answer: getAnswer("radio", ["옵션 1"], false),
+        optionList: ["옵션 1"],
+        hasEtc: false,
         isRequired: false,
         isFocused: true,
       };
+      state.questions.push(defaultQuestion);
     },
+    addOption: (state, action) => {},
   },
 });
 
