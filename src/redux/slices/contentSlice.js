@@ -134,7 +134,16 @@ export const contentSlice = createSlice({
       state.questions[index].type = type;
       state.questions[index].answer = getAnswer(type, optionList, hasEtc);
     },
-    addOption: (state, action) => {},
+    changeTitleAt: (state, action) => {
+      const { index, title } = action.payload;
+      state.questions[index].title = title;
+    },
+    addOptionAt: (state, action) => {
+      const { index } = action.payload;
+      state.questions[index].optionList.push(
+        `옵션 ${state.questions[index].optionList.length + 1}`
+      );
+    },
   },
 });
 
@@ -146,4 +155,6 @@ export const {
   copyQuestionAt,
   removeQuestionAt,
   changeQuestionType,
+  changeTitleAt,
+  addOptionAt,
 } = contentSlice.actions;

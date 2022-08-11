@@ -9,6 +9,8 @@ import {
   copyQuestionAt,
   removeQuestionAt,
   changeQuestionType,
+  changeTitleAt,
+  addOptionAt,
 } from "../redux/slices/contentSlice";
 import { Space, Input, Card, Select, Radio } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
@@ -34,11 +36,9 @@ export const AdminPage = () => {
   const onRemoveClick = (index) => {
     dispatch(removeQuestionAt({ index }));
   };
-
-  useEffect(() => {
-    if (!addRef.current) return;
-    console.log(addRef.current.getBoundingClientRect);
-  }, [addRef.current]);
+  const onChangeTitle = (e, index) => {
+    dispatch(changeTitleAt({ index, title: e.target.value }));
+  };
 
   return (
     <Space
@@ -91,7 +91,12 @@ export const AdminPage = () => {
                 <Space
                   style={{ width: "100%", justifyContent: "space-between" }}
                 >
-                  <Input size="large" placeholder="질문" value={title} />
+                  <Input
+                    size="large"
+                    placeholder="질문"
+                    value={title}
+                    onChange={(e) => onChangeTitle(e, index)}
+                  />
                   <Select
                     defaultValue={type}
                     onSelect={(type) => {
