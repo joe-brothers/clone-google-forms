@@ -3,14 +3,14 @@ import { Space, Card, Typography, Select, Input, Checkbox, Radio, Button } from 
 import "antd/dist/antd.min.css";
 import { useNavigate } from "react-router-dom";
 import {
-  markAsError,
-  unmarkAsError,
+  clearOptionDropdown,
+  updateErrorStatus,
   updateEtcInput,
   updateOptionCheckbox,
   updateOptionRadio,
   updateOptionText,
 } from "../../redux/slices/contentSlice";
-import { ExclamationCircleOutlined, ExclamationCircleTwoTone } from "@ant-design/icons";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
@@ -21,40 +21,15 @@ export const PreviewPage = () => {
   const { title, description } = useSelector((state) => state.formTitle);
   const { questions } = useSelector((state) => state.formContent);
 
-  const checkIfRequiredAndEmpty = ({ indexQuestion }) => {
-    if (!questions[indexQuestion].isRequired) return false;
-
-    console.log(questions[indexQuestion].type);
-    console.log(questions[indexQuestion].chosenOptions);
-    // 단답형, 장문형 질문일 경우
-    if (questions[indexQuestion].type.indexOf("text") !== -1) {
-      if (!questions[indexQuestion].chosenOptions[0]) return true;
-    }
-    // 라디오, 체크박스, 드롭다운 질문일 경우
-    else {
-      if (questions[indexQuestion].chosenOptions.length === 0) return true;
-    }
-    return false;
-  };
-
-  const checkIfError = ({ indexQuestion }) => {
-    if (checkIfRequiredAndEmpty({ indexQuestion })) {
-      dispatch(markAsError({ indexQuestion }));
-    } else {
-      dispatch(unmarkAsError({ indexQuestion }));
-    }
-  };
-
   const onClickSubmit = () => {
     let errorNum = 0;
     questions.forEach((question, indexQuestion) => {
-      if (checkIfRequiredAndEmpty({ indexQuestion })) {
-        dispatch(markAsError({ indexQuestion }));
+      dispatch(updateErrorStatus({ indexQuestion }));
+      if (question.isRequired && (question.chosenOptions.length === 0 || question.chosenOptions[0] === "")) {
         errorNum += 1;
-      } else {
-        dispatch(unmarkAsError({ indexQuestion }));
       }
     });
+
     if (errorNum === 0) {
       navigate("/submit");
     }
@@ -62,11 +37,11 @@ export const PreviewPage = () => {
 
   const onChangeOptionText = ({ e, indexQuestion }) => {
     dispatch(updateOptionText({ index: indexQuestion, text: e.target.value }));
-    checkIfError({ indexQuestion });
+    dispatch(updateErrorStatus({ indexQuestion }));
   };
   const onChangeOptionRadio = ({ e, indexQuestion }) => {
     dispatch(updateOptionRadio({ index: indexQuestion, value: e.target.value }));
-    checkIfError({ indexQuestion });
+    dispatch(updateErrorStatus({ indexQuestion }));
   };
   const onChangeOptionCheckbox = ({ e, indexQuestion }) => {
     dispatch(
@@ -76,14 +51,19 @@ export const PreviewPage = () => {
         checked: e.target.checked,
       })
     );
-    checkIfError({ indexQuestion });
+    dispatch(updateErrorStatus({ indexQuestion }));
   };
-  const onChangeOptionDropdown = ({ value, indexQuestion }) => {
+  const onSelectOptionDropdown = ({ value, indexQuestion }) => {
     dispatch(updateOptionRadio({ index: indexQuestion, value }));
-    checkIfError({ indexQuestion });
+    dispatch(updateErrorStatus({ indexQuestion }));
+  };
+  const onClearOptionDropdown = ({ indexQuestion }) => {
+    dispatch(clearOptionDropdown({ index: indexQuestion }));
+    dispatch(updateErrorStatus({ indexQuestion }));
   };
   const onChangeEtcInput = ({ e, indexQuestion }) => {
     dispatch(updateEtcInput({ index: indexQuestion, etcInput: e.target.value }));
+    dispatch(updateErrorStatus({ indexQuestion }));
   };
 
   const checkFormHasRequired = () => {
@@ -215,7 +195,8 @@ export const PreviewPage = () => {
               {type === "dropdown" && (
                 <Select
                   allowClear={true}
-                  onChange={(value) => onChangeOptionDropdown({ value, indexQuestion })}
+                  onSelect={(value) => onSelectOptionDropdown({ value, indexQuestion })}
+                  onClear={() => onClearOptionDropdown({ indexQuestion })}
                   value={chosenOptions[0]}
                   placeholder="선택"
                   style={{ width: 200 }}
@@ -228,7 +209,7 @@ export const PreviewPage = () => {
                 </Select>
               )}
               {isError && (
-                <Space style={{ marginTop: 12 }}>
+                <Space style={{ width: "100%", marginTop: 12 }}>
                   <ExclamationCircleOutlined style={{ fontSize: 20, color: "red" }} />
                   <Text type="danger">필수 질문입니다.</Text>
                 </Space>

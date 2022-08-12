@@ -160,6 +160,10 @@ export const contentSlice = createSlice({
       if (checked) state.questions[index].chosenOptions.push(value);
       else state.questions[index].chosenOptions.splice(state.questions[index].chosenOptions.indexOf(value), 1);
     },
+    clearOptionDropdown: (state, action) => {
+      const { index } = action.payload;
+      state.questions[index].chosenOptions = [];
+    },
     updateEtcInput: (state, action) => {
       const { index, etcInput } = action.payload;
       if (!state.questions[index].chosenOptions.includes("기타")) {
@@ -171,13 +175,15 @@ export const contentSlice = createSlice({
       state.questions[index].etcInput = etcInput;
     },
     // Error (required && empty)
-    markAsError: (state, action) => {
+    updateErrorStatus: (state, action) => {
       const { indexQuestion } = action.payload;
-      state.questions[indexQuestion].isError = true;
-    },
-    unmarkAsError: (state, action) => {
-      const { indexQuestion } = action.payload;
-      state.questions[indexQuestion].isError = false;
+      if (
+        state.questions[indexQuestion].isRequired &&
+        (state.questions[indexQuestion].chosenOptions.length === 0 ||
+          state.questions[indexQuestion].chosenOptions[0] === "")
+      )
+        state.questions[indexQuestion].isError = true;
+      else state.questions[indexQuestion].isError = false;
     },
   },
 });
@@ -188,6 +194,7 @@ export const {
   updateOptionRadio,
   updateOptionCheckbox,
   updateEtcInput,
+  clearOptionDropdown,
   focusQuestionAt,
   unfocusQuestionAt,
   addDefaultQuestionAt,
@@ -203,4 +210,5 @@ export const {
   removeOptionAt,
   markAsError,
   unmarkAsError,
+  updateErrorStatus,
 } = contentSlice.actions;
