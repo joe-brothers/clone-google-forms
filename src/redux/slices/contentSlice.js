@@ -17,6 +17,61 @@ export const contentSlice = createSlice({
     ],
   },
   reducers: {
+    fillDummyQuestions: (state) => {
+      const dummyQuestions = [
+        {
+          title: "질문1 - 단답형 (아래 장문형 질문->제목없음)",
+          type: "textShort",
+          optionList: ["옵션 1"],
+          hasEtc: false,
+          isRequired: false,
+          isFocused: true,
+          chosenOptions: [],
+          etcInput: "",
+        },
+        {
+          title: "",
+          type: "textLong",
+          optionList: ["옵션 1"],
+          hasEtc: false,
+          isRequired: true,
+          isFocused: false,
+          chosenOptions: [],
+          etcInput: "",
+        },
+        {
+          title: "질문 3 - 객관식",
+          type: "radio",
+          optionList: ["11111", "2222", "33333"],
+          hasEtc: true,
+          isRequired: false,
+          isFocused: false,
+          chosenOptions: [],
+          etcInput: "",
+        },
+        {
+          title: "질문 4 - 체크박스",
+          type: "checkbox",
+          optionList: ["aaaa", "bbbb", "cccc"],
+          hasEtc: false,
+          isRequired: false,
+          isFocused: false,
+          chosenOptions: [],
+          etcInput: "",
+        },
+        {
+          title: "질문 5 - 드롭다운",
+          type: "dropdown",
+          optionList: ["Hi", "Hello", ":)"],
+          hasEtc: false,
+          isRequired: true,
+          isFocused: false,
+          chosenOptions: [],
+          etcInput: "",
+        },
+      ];
+      state.questions = dummyQuestions;
+    },
     focusQuestionAt: (state, action) => {
       const { index } = action.payload;
       state.questions[index].isFocused = true;
@@ -24,19 +79,6 @@ export const contentSlice = createSlice({
     unfocusQuestionAt: (state, action) => {
       const { index } = action.payload;
       state.questions[index].isFocused = false;
-    },
-    addDefaultQuestion: (state, action) => {
-      let defaultQuestion = {
-        title: "",
-        type: "radio",
-        optionList: ["옵션 1"],
-        hasEtc: false,
-        isRequired: false,
-        isFocused: true,
-        chosenOptions: [],
-        etcInput: "",
-      };
-      state.questions.push(defaultQuestion);
     },
     addDefaultQuestionAt: (state, action) => {
       const { index } = action.payload;
@@ -83,9 +125,7 @@ export const contentSlice = createSlice({
     },
     addOptionAt: (state, action) => {
       const { index } = action.payload;
-      state.questions[index].optionList.push(
-        `옵션 ${state.questions[index].optionList.length + 1}`
-      );
+      state.questions[index].optionList.push(`옵션 ${state.questions[index].optionList.length + 1}`);
     },
     addEtcOfOptionAt: (state, action) => {
       const { index } = action.payload;
@@ -111,11 +151,7 @@ export const contentSlice = createSlice({
     updateOptionCheckbox: (state, action) => {
       const { index, value, checked } = action.payload;
       if (checked) state.questions[index].chosenOptions.push(value);
-      else
-        state.questions[index].chosenOptions.splice(
-          state.questions[index].chosenOptions.indexOf(value),
-          1
-        );
+      else state.questions[index].chosenOptions.splice(state.questions[index].chosenOptions.indexOf(value), 1);
     },
     updateEtcInput: (state, action) => {
       const { index, etcInput } = action.payload;
@@ -131,13 +167,13 @@ export const contentSlice = createSlice({
 });
 
 export const {
+  fillDummyQuestions,
   updateOptionText,
   updateOptionRadio,
   updateOptionCheckbox,
   updateEtcInput,
   focusQuestionAt,
   unfocusQuestionAt,
-  addDefaultQuestion,
   addDefaultQuestionAt,
   duplicateQuestionAt,
   removeQuestionAt,
