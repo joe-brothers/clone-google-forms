@@ -35,7 +35,6 @@ export const PreviewPage = () => {
     dispatch(updateOptionText({ index: indexQuestion, text: e.target.value }));
   };
   const onChangeOptionRadio = ({ e, indexQuestion }) => {
-    console.log(questions[indexQuestion].chosenOptions);
     dispatch(
       updateOptionRadio({ index: indexQuestion, value: e.target.value })
     );
@@ -48,6 +47,9 @@ export const PreviewPage = () => {
         checked: e.target.checked,
       })
     );
+  };
+  const onChangeOptionDropdown = ({ value, indexQuestion }) => {
+    dispatch(updateOptionRadio({ index: indexQuestion, value }));
   };
   const onChangeEtcInput = ({ e, indexQuestion }) => {
     dispatch(
@@ -89,7 +91,6 @@ export const PreviewPage = () => {
             hasEtc,
             isRequired,
             chosenOptions,
-            isEtcChosen,
             etcInput,
           },
           indexQuestion
@@ -207,7 +208,14 @@ export const PreviewPage = () => {
                 </Space>
               )}
               {type === "dropdown" && (
-                <Select placeholder="선택" style={{ width: 200 }}>
+                <Select
+                  onChange={(value) =>
+                    onChangeOptionDropdown({ value, indexQuestion })
+                  }
+                  value={chosenOptions[0]}
+                  placeholder="선택"
+                  style={{ width: 200 }}
+                >
                   {optionList.map((option, optionIndex) => (
                     <Option
                       key={`q${indexQuestion}_drop${optionIndex}`}

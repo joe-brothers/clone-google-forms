@@ -10,6 +10,7 @@ import {
   Button,
 } from "antd";
 import "antd/dist/antd.min.css";
+import { CheckCircleTwoTone, CheckOutlined } from "@ant-design/icons";
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
@@ -139,11 +140,10 @@ export const SubmitPage = () => {
               {type === "dropdown" && (
                 <Space direction="vertical" style={{ width: "100%" }}>
                   {optionList.map((option) => (
-                    <Text>
-                      {`${option} - ${
-                        chosenOptions.includes(option) && `(선택)`
-                      }`}
-                    </Text>
+                    <Space>
+                      <Text>{option}</Text>
+                      {chosenOptions.includes(option) && <CheckCircleTwoTone />}
+                    </Space>
                   ))}
                 </Space>
               )}
