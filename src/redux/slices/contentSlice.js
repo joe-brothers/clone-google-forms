@@ -11,6 +11,9 @@ export const contentSlice = createSlice({
         hasEtc: false,
         isRequired: false,
         isFocused: true,
+        chosenOptions: [],
+        isEtcChosen: false,
+        etcInput: "",
       },
     ],
   },
@@ -89,6 +92,7 @@ export const contentSlice = createSlice({
       const { indexQuestion, indexOption } = action.payload;
       state.questions[indexQuestion].optionList.splice(indexOption, 1);
     },
+    // PreviewPage, SubmitPage
   },
 });
 

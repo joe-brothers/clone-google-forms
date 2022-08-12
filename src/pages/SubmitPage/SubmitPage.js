@@ -10,27 +10,13 @@ import {
   Button,
 } from "antd";
 import "antd/dist/antd.min.css";
-import { useNavigate } from "react-router-dom";
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
 
-export const PreviewPage = () => {
-  const navigate = useNavigate();
+export const SubmitPage = () => {
   const { title, description } = useSelector((state) => state.formTitle);
   const { questions } = useSelector((state) => state.formContent);
-
-  const onClickSubmit = () => {
-    navigate("/submit");
-  };
-
-  const checkHasRequired = () => {
-    let hasRequired = false;
-    questions.forEach(({ isRequired }) => {
-      if (isRequired) hasRequired = true;
-    });
-    return hasRequired;
-  };
 
   return (
     <Space
@@ -39,32 +25,50 @@ export const PreviewPage = () => {
       style={{ display: "flex", width: 700, paddingTop: 50, paddingBottom: 50 }}
     >
       <Card>
-        <Title level={2}>{title}</Title>
+        <Title level={2}>{title} : 제출 내역</Title>
         <Text>{description}</Text>
-        {checkHasRequired() && <Text type="danger">* 필수항목</Text>}
       </Card>
       {questions.map(
         (
-          { title, type, optionList, hasEtc, isRequired, isFocused },
+          {
+            title,
+            type,
+            optionList,
+            hasEtc,
+            isRequired,
+            chosenOptions,
+            isEtcChosen,
+            etcInput,
+          },
           indexQuestion
         ) => {
           return (
-            <Card key={`answer_${indexQuestion}`}>
+            <Card key={`submit_${indexQuestion}`}>
               <Space style={{ width: "100%", marginBottom: 8 }}>
                 <Text style={{ fontSize: 16 }}>{title}</Text>
                 {isRequired && <Text type="danger">*</Text>}
               </Space>
               {type === "textShort" && (
-                <Input style={{ width: "50%" }} placeholder="내 답변" />
+                <Input
+                  disabled
+                  style={{ width: "50%" }}
+                  value={chosenOptions[0]}
+                />
               )}
               {type === "textLong" && (
-                <TextArea autoSize placeholder="내 답변" />
+                <TextArea disabled autoSize value={chosenOptions[0]} />
               )}
               {type === "radio" && (
                 <Radio.Group style={{ width: "100%" }}>
                   <Space direction="vertical" style={{ width: "100%" }}>
                     {optionList.map((option) => (
-                      <Radio value={option}>{option}</Radio>
+                      <Radio
+                        disabled
+                        value={option}
+                        checked={chosenOptions.includes(option)}
+                      >
+                        {option}
+                      </Radio>
                     ))}
                     {hasEtc && (
                       <div
@@ -75,8 +79,18 @@ export const PreviewPage = () => {
                           alignItems: "center",
                         }}
                       >
-                        <Radio style={{ flexShrink: 0 }}>기타:</Radio>
-                        <Input style={{ width: "100%", flexGrow: 1 }} />
+                        <Radio
+                          disabled
+                          checked={isEtcChosen}
+                          style={{ flexShrink: 0 }}
+                        >
+                          기타:
+                        </Radio>
+                        <Input
+                          disabled
+                          value={etcInput}
+                          style={{ width: "100%", flexGrow: 1 }}
+                        />
                       </div>
                     )}
                   </Space>
@@ -85,7 +99,9 @@ export const PreviewPage = () => {
               {type === "checkbox" && (
                 <Space direction="vertical" style={{ width: "100%" }}>
                   {optionList.map((option, optionIndex) => (
-                    <Checkbox>{option}</Checkbox>
+                    <Checkbox disabled checked={chosenOptions.includes(option)}>
+                      {option}
+                    </Checkbox>
                   ))}
                   {hasEtc && (
                     <div
@@ -96,29 +112,35 @@ export const PreviewPage = () => {
                         alignItems: "center",
                       }}
                     >
-                      <Checkbox style={{ flexShrink: 0, marginRight: 8 }}>
+                      <Checkbox
+                        disabled
+                        checked={isEtcChosen}
+                        style={{ flexShrink: 0, marginRight: 8 }}
+                      >
                         기타:
                       </Checkbox>
-                      <Input style={{ width: "100%", flexGrow: 1 }} />
+                      <Input
+                        disabled
+                        value={etcInput}
+                        style={{ width: "100%", flexGrow: 1 }}
+                      />
                     </div>
                   )}
                 </Space>
               )}
               {type === "dropdown" && (
-                <Select placeholder="선택" style={{ width: 200 }}>
+                <Space direction="vertical" style={{ width: "100%" }}>
                   {optionList.map((option) => (
-                    <Option value={option}>{option}</Option>
+                    <Text>
+                      {option} {chosenOptions.includes(option) && `(선택)`}
+                    </Text>
                   ))}
-                </Select>
+                </Space>
               )}
             </Card>
           );
         }
       )}
-
-      <Button type="primary" style={{ width: 70 }} onClick={onClickSubmit}>
-        제출
-      </Button>
     </Space>
   );
 };
