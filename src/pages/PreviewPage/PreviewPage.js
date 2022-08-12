@@ -1,5 +1,14 @@
 import { useSelector } from "react-redux";
-import { Space, Card, Typography, Select, Input, Checkbox, Radio } from "antd";
+import {
+  Space,
+  Card,
+  Typography,
+  Select,
+  Input,
+  Checkbox,
+  Radio,
+  Button,
+} from "antd";
 import "antd/dist/antd.min.css";
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -68,13 +77,9 @@ export const PreviewPage = () => {
                 </Radio.Group>
               )}
               {type === "checkbox" && (
-                <>
+                <Space direction="vertical" style={{ width: "100%" }}>
                   {optionList.map((option, optionIndex) => (
-                    <Space
-                      style={{ fontSize: 14, width: "100%", marginTop: 8 }}
-                    >
-                      <Checkbox>{option}</Checkbox>
-                    </Space>
+                    <Checkbox>{option}</Checkbox>
                   ))}
                   {hasEtc && (
                     <div
@@ -83,14 +88,15 @@ export const PreviewPage = () => {
                         width: "100%",
                         display: "flex",
                         alignItems: "center",
-                        marginTop: 4,
                       }}
                     >
-                      <Checkbox style={{ flexShrink: 0 }}>기타:</Checkbox>
+                      <Checkbox style={{ flexShrink: 0, marginRight: 8 }}>
+                        기타:
+                      </Checkbox>
                       <Input style={{ width: "100%", flexGrow: 1 }} />
                     </div>
                   )}
-                </>
+                </Space>
               )}
               {type === "dropdown" && (
                 <Select placeholder="선택" style={{ width: 200 }}>
@@ -103,6 +109,10 @@ export const PreviewPage = () => {
           );
         }
       )}
+
+      <Button type="primary" style={{ width: 70 }}>
+        제출
+      </Button>
     </Space>
   );
 };
