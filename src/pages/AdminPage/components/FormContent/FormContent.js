@@ -3,7 +3,6 @@ import { unfocusTitleCard } from "../../../../redux/slices/titleSlice";
 import {
   focusQuestionAt,
   unfocusQuestionAt,
-  addDefaultQuestionAt,
   changeQuestionType,
   changeTitleAt,
   addOptionAt,
@@ -20,12 +19,13 @@ import {
 } from "antd";
 import { purple, grey } from "@ant-design/colors";
 import { OptionTextLong, OptionTextShort } from "./OptionText";
-import { EtcSentence } from "./EtcSentence";
+import { EtcChoice } from "./EtcChoice";
 import { AddOptionOrEtc } from "./AddOptionOrEtc";
 import { InputSentence } from "./InputSentence";
 import { QuestionSetting } from "./QuestionSetting";
 import "antd/dist/antd.min.css";
 import { ButtonAddQuestion } from "./ButtonAddQuestion";
+import { OptionChoices } from "./OptionChoices";
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -40,11 +40,6 @@ export const FormContent = () => {
     });
   };
 
-  // const onClickAddQuestion = (e, index) => {
-  //   e.stopPropagation();
-  //   dispatch(addDefaultQuestionAt({ index: index + 1 }));
-  //   dispatch(unfocusQuestionAt({ index }));
-  // };
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
   };
@@ -120,31 +115,22 @@ export const FormContent = () => {
                 {type === "textLong" && <OptionTextLong />}
                 {type === "radio" && (
                   <Space direction="vertical">
-                    {optionList.map((option, indexOption) => (
-                      <Space style={{ fontSize: 14 }}>
-                        <Radio disabled />
-                        {isFocused ? (
-                          <InputSentence
-                            optionList={optionList}
-                            option={option}
-                            indexOption={indexOption}
-                            indexQuestion={indexQuestion}
-                          />
-                        ) : (
-                          <Text>{option}</Text>
-                        )}
-                      </Space>
-                    ))}
+                    <OptionChoices
+                      ComponentToCheck={<Radio disabled />}
+                      optionList={optionList}
+                      indexQuestion={indexQuestion}
+                      isFocused={isFocused}
+                    />
                     {hasEtc && (
-                      <EtcSentence
-                        ComponentToCheck={Radio}
+                      <EtcChoice
+                        ComponentToCheck={<Radio disabled />}
                         isFocused={isFocused}
                         index={indexQuestion}
                       />
                     )}
                     {isFocused && (
                       <AddOptionOrEtc
-                        ComponentToCheck={Radio}
+                        ComponentToCheck={<Radio disabled />}
                         hasEtc={hasEtc}
                         index={indexQuestion}
                       />
@@ -153,31 +139,22 @@ export const FormContent = () => {
                 )}
                 {type === "checkbox" && (
                   <Space direction="vertical">
-                    {optionList.map((option, indexOption) => (
-                      <Space style={{ fontSize: 14 }}>
-                        <Checkbox disabled />
-                        {isFocused ? (
-                          <InputSentence
-                            optionList={optionList}
-                            option={option}
-                            indexOption={indexOption}
-                            indexQuestion={indexQuestion}
-                          />
-                        ) : (
-                          <Text>{option}</Text>
-                        )}
-                      </Space>
-                    ))}
+                    <OptionChoices
+                      ComponentToCheck={<Checkbox disabled />}
+                      optionList={optionList}
+                      indexQuestion={indexQuestion}
+                      isFocused={isFocused}
+                    />
                     {hasEtc && (
-                      <EtcSentence
-                        ComponentToCheck={Checkbox}
+                      <EtcChoice
+                        ComponentToCheck={<Checkbox disabled />}
                         isFocused={isFocused}
                         index={indexQuestion}
                       />
                     )}
                     {isFocused && (
                       <AddOptionOrEtc
-                        ComponentToCheck={Checkbox}
+                        ComponentToCheck={<Checkbox disabled />}
                         hasEtc={hasEtc}
                         index={indexQuestion}
                       />

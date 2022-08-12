@@ -6,7 +6,7 @@ import { removeEtcOfOptionAt } from "../../../../redux/slices/contentSlice";
 import "antd/dist/antd.min.css";
 const { Text } = Typography;
 
-export const EtcSentence = ({ ComponentToCheck, isFocused, index }) => {
+export const EtcChoice = ({ ComponentToCheck, isFocused, index }) => {
   const dispatch = useDispatch();
   const onClickRemoveEtc = (index) => {
     dispatch(removeEtcOfOptionAt({ index }));
@@ -14,7 +14,7 @@ export const EtcSentence = ({ ComponentToCheck, isFocused, index }) => {
 
   return (
     <Space style={{ fontSize: 14 }}>
-      <ComponentToCheck disabled />
+      {ComponentToCheck}
       {isFocused ? (
         <Input disabled value="기타..." />
       ) : (

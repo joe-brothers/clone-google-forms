@@ -16,7 +16,7 @@ export const AddOptionOrEtc = ({ ComponentToCheck, hasEtc, index }) => {
 
   return (
     <Space>
-      <ComponentToCheck disabled />
+      {ComponentToCheck}
       <Button type="dashed" onClick={() => onClickAddOption(index)}>
         옵션 추가
       </Button>
