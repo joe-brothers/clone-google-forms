@@ -129,7 +129,7 @@ export const FormContent = () => {
               {type === "dropdown" && (
                 <Space direction="vertical">
                   {optionList.map((option, indexOption) => (
-                    <Space style={{ fontSize: 14 }}>
+                    <Space style={{ fontSize: 14 }} key={`q_${indexQuestion}_${indexOption}`}>
                       <Text>{indexOption + 1}</Text>
                       {isFocused ? (
                         <InputSentence

@@ -13,6 +13,7 @@ export const contentSlice = createSlice({
         isFocused: true,
         chosenOptions: [],
         etcInput: "",
+        isError: false,
       },
     ],
   },
@@ -28,6 +29,7 @@ export const contentSlice = createSlice({
           isFocused: true,
           chosenOptions: [],
           etcInput: "",
+          isError: false,
         },
         {
           title: "",
@@ -38,6 +40,7 @@ export const contentSlice = createSlice({
           isFocused: false,
           chosenOptions: [],
           etcInput: "",
+          isError: false,
         },
         {
           title: "질문 3 - 객관식",
@@ -48,6 +51,7 @@ export const contentSlice = createSlice({
           isFocused: false,
           chosenOptions: [],
           etcInput: "",
+          isError: false,
         },
         {
           title: "질문 4 - 체크박스",
@@ -58,6 +62,7 @@ export const contentSlice = createSlice({
           isFocused: false,
           chosenOptions: [],
           etcInput: "",
+          isError: false,
         },
         {
           title: "질문 5 - 드롭다운",
@@ -68,6 +73,7 @@ export const contentSlice = createSlice({
           isFocused: false,
           chosenOptions: [],
           etcInput: "",
+          isError: false,
         },
       ];
       state.questions = dummyQuestions;
@@ -91,6 +97,7 @@ export const contentSlice = createSlice({
         isFocused: true,
         chosenOptions: [],
         etcInput: "",
+        isError: false,
       };
       state.questions.splice(index, 0, defaultQuestion);
     },
@@ -163,6 +170,15 @@ export const contentSlice = createSlice({
       }
       state.questions[index].etcInput = etcInput;
     },
+    // Error (required && empty)
+    markAsError: (state, action) => {
+      const { indexQuestion } = action.payload;
+      state.questions[indexQuestion].isError = true;
+    },
+    unmarkAsError: (state, action) => {
+      const { indexQuestion } = action.payload;
+      state.questions[indexQuestion].isError = false;
+    },
   },
 });
 
@@ -185,4 +201,6 @@ export const {
   addEtcOfOptionAt,
   removeEtcOfOptionAt,
   removeOptionAt,
+  markAsError,
+  unmarkAsError,
 } = contentSlice.actions;
