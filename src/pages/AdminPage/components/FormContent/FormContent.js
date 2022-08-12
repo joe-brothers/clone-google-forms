@@ -40,14 +40,14 @@ export const FormContent = () => {
     });
   };
 
-  const onClickAddQuestion = (index) => {
+  const onClickAddQuestion = (e, index) => {
+    e.stopPropagation();
     dispatch(addDefaultQuestionAt({ index: index + 1 }));
     dispatch(unfocusQuestionAt({ index }));
   };
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
   };
-
   const onClickAddOption = (index) => {
     dispatch(addOptionAt({ index }));
   };
@@ -62,20 +62,12 @@ export const FormContent = () => {
           return (
             <Card
               key={`question_${indexQuestion}`}
-              className="card"
               style={{
                 position: "relative",
                 width: 700,
                 border: isFocused ? `1px solid ${purple.primary}` : "none",
               }}
               onClick={(e) => {
-                if (
-                  e.target.className === "duplicate" ||
-                  e.target.className === "add" ||
-                  e.target.className === "remove"
-                ) {
-                  return;
-                }
                 dispatch(unfocusTitleCard());
                 unfocusAllQuestions();
                 dispatch(focusQuestionAt({ index: indexQuestion }));
@@ -83,11 +75,10 @@ export const FormContent = () => {
             >
               {isFocused && (
                 <button
-                  onClick={() => {
-                    onClickAddQuestion(indexQuestion);
+                  onClick={(e) => {
+                    onClickAddQuestion(e, indexQuestion);
                   }}
                   style={{ position: "absolute", top: 0, right: "-12%" }}
-                  className="add"
                 >
                   질문 추가
                 </button>

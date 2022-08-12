@@ -14,11 +14,13 @@ export const QuestionSetting = ({ indexQuestion, isRequired }) => {
   const dispatch = useDispatch();
   const { questions } = useSelector((state) => state.formContent);
 
-  const onClickDuplicateQuestion = (index) => {
+  const onClickDuplicateQuestion = (e, index) => {
+    e.stopPropagation();
     dispatch(duplicateQuestionAt({ index }));
     dispatch(unfocusQuestionAt({ index }));
   };
-  const onClickRemoveQuestion = (index) => {
+  const onClickRemoveQuestion = (e, index) => {
+    e.stopPropagation();
     dispatch(removeQuestionAt({ index }));
     if (questions.length === 0) return;
     if (index === 0) dispatch(focusQuestionAt({ index: 0 }));
@@ -36,15 +38,13 @@ export const QuestionSetting = ({ indexQuestion, isRequired }) => {
           icon={<CopyOutlined />}
           shape="circle"
           size="large"
-          onClick={() => onClickDuplicateQuestion(indexQuestion)}
-          className="duplicate"
+          onClick={(e) => onClickDuplicateQuestion(e, indexQuestion)}
         />
         <Button
           icon={<DeleteOutlined />}
           shape="circle"
           size="large"
-          onClick={() => onClickRemoveQuestion(indexQuestion)}
-          className="remove"
+          onClick={(e) => onClickRemoveQuestion(e, indexQuestion)}
         />
         <Divider type="vertical" />
         <Space>필수</Space>
