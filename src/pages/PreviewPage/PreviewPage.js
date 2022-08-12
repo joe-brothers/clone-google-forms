@@ -214,6 +214,7 @@ export const PreviewPage = () => {
               )}
               {type === "dropdown" && (
                 <Select
+                  allowClear={true}
                   onChange={(value) => onChangeOptionDropdown({ value, indexQuestion })}
                   value={chosenOptions[0]}
                   placeholder="선택"

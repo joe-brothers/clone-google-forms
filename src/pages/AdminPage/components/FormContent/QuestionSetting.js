@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Divider, Space, Switch } from "antd";
+import { Button, Divider, Space, Switch, Tooltip } from "antd";
 import {
   duplicateQuestionAt,
   focusQuestionAt,
@@ -34,24 +34,25 @@ export const QuestionSetting = ({ indexQuestion, isRequired }) => {
     <>
       <Divider style={{ marginTop: 12, marginBottom: 12 }} />
       <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-        <Button
-          icon={<CopyOutlined />}
-          shape="circle"
-          size="large"
-          onClick={(e) => onClickDuplicateQuestion(e, indexQuestion)}
-        />
-        <Button
-          icon={<DeleteOutlined />}
-          shape="circle"
-          size="large"
-          onClick={(e) => onClickRemoveQuestion(e, indexQuestion)}
-        />
+        <Tooltip title="복사" placement="bottom">
+          <Button
+            icon={<CopyOutlined />}
+            shape="circle"
+            size="large"
+            onClick={(e) => onClickDuplicateQuestion(e, indexQuestion)}
+          />
+        </Tooltip>
+        <Tooltip title="삭제" placement="bottom">
+          <Button
+            icon={<DeleteOutlined />}
+            shape="circle"
+            size="large"
+            onClick={(e) => onClickRemoveQuestion(e, indexQuestion)}
+          />
+        </Tooltip>
         <Divider type="vertical" />
         <Space>필수</Space>
-        <Switch
-          checked={isRequired}
-          onChange={() => onChangeRequired(indexQuestion)}
-        />
+        <Switch checked={isRequired} onChange={() => onChangeRequired(indexQuestion)} />
       </Space>
     </>
   );

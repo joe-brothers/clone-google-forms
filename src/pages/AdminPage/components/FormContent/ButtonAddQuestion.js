@@ -1,10 +1,7 @@
 import { useDispatch } from "react-redux";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import {
-  addDefaultQuestionAt,
-  unfocusQuestionAt,
-} from "../../../../redux/slices/contentSlice";
+import { addDefaultQuestionAt, unfocusQuestionAt } from "../../../../redux/slices/contentSlice";
 import { unfocusTitleCard } from "../../../../redux/slices/titleSlice";
 
 export const ButtonAddQuestion = ({ indexQuestion, isTitle }) => {
@@ -22,13 +19,15 @@ export const ButtonAddQuestion = ({ indexQuestion, isTitle }) => {
   };
 
   return (
-    <Button
-      size="large"
-      style={{ position: "absolute", top: 0, right: "-9%" }}
-      icon={<PlusCircleOutlined />}
-      onClick={(e) => {
-        onClickAddQuestion(e, indexQuestion);
-      }}
-    />
+    <Tooltip title="질문 추가" placement="right">
+      <Button
+        size="large"
+        style={{ position: "absolute", top: 0, right: "-9%" }}
+        icon={<PlusCircleOutlined />}
+        onClick={(e) => {
+          onClickAddQuestion(e, indexQuestion);
+        }}
+      />
+    </Tooltip>
   );
 };
