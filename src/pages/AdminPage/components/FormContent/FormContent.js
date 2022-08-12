@@ -59,8 +59,10 @@ export const FormContent = () => {
               key={`question_${indexQuestion}`}
               style={{
                 position: "relative",
+                boxShadow: `rgb(0 0 0 / ${isFocused ? 15 : 5}%) 0px 0px 10px 5px`,
+                border: `2px solid ${isFocused ? purple.primary : "#e4e4e4"}`,
+                borderRadius: 10,
                 width: 700,
-                border: isFocused ? `1px solid ${purple.primary}` : "none",
               }}
               onClick={(e) => {
                 dispatch(unfocusTitleCard());

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FormContent, FormTitle } from "./components";
-import { Space } from "antd";
+import { Button, Space } from "antd";
 import "antd/dist/antd.min.css";
 
 export const AdminPage = () => {
@@ -23,7 +23,9 @@ export const AdminPage = () => {
         paddingBottom: 50,
       }}
     >
-      <button onClick={onClickPreview}>미리보기</button>
+      <Button type="primary" onClick={onClickPreview}>
+        미리보기
+      </Button>
       <FormTitle />
       <FormContent />
     </Space>

@@ -69,7 +69,13 @@ export const PreviewPage = () => {
       size="large"
       style={{ display: "flex", width: 700, paddingTop: 50, paddingBottom: 50 }}
     >
-      <Card>
+      <Card
+        style={{
+          border: `2px solid #e4e4e4"`,
+          borderRadius: 10,
+          boxShadow: `rgb(0 0 0 / 5%) 0px 0px 10px 5px`,
+        }}
+      >
         <Title level={2}>{title}</Title>
         <Text>{description}</Text>
         {checkHasRequired() && <Text type="danger">* 필수항목</Text>}
@@ -89,7 +95,14 @@ export const PreviewPage = () => {
           indexQuestion
         ) => {
           return (
-            <Card key={`answer_${indexQuestion}`}>
+            <Card
+              key={`answer_${indexQuestion}`}
+              style={{
+                border: `2px solid #e4e4e4"`,
+                borderRadius: 10,
+                boxShadow: `rgb(0 0 0 / 5%) 0px 0px 10px 5px`,
+              }}
+            >
               <Space style={{ width: "100%", marginBottom: 8 }}>
                 <Text style={{ fontSize: 16 }}>{title}</Text>
                 {isRequired && <Text type="danger">*</Text>}
