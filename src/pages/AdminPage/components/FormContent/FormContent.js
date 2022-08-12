@@ -94,7 +94,7 @@ export const FormContent = () => {
                     </>
                   )}
                   <Select
-                    defaultValue={type}
+                    value={type}
                     onSelect={(type) => {
                       dispatch(
                         changeQuestionType({ type, index: indexQuestion })
