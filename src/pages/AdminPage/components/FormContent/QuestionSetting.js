@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Divider, Space, Switch } from "antd";
+import { Button, Divider, Space, Switch } from "antd";
 import {
   duplicateQuestionAt,
   focusQuestionAt,
@@ -8,6 +8,7 @@ import {
   unfocusQuestionAt,
 } from "../../../../redux/slices/contentSlice";
 import "antd/dist/antd.min.css";
+import { CopyOutlined, DeleteOutlined } from "@ant-design/icons";
 
 export const QuestionSetting = ({ indexQuestion, isRequired }) => {
   const dispatch = useDispatch();
@@ -20,8 +21,8 @@ export const QuestionSetting = ({ indexQuestion, isRequired }) => {
   const onClickRemoveQuestion = (index) => {
     dispatch(removeQuestionAt({ index }));
     if (questions.length === 0) return;
-    if (index === 0) dispatch(focusQuestionAt(0));
-    else dispatch(focusQuestionAt(index - 1));
+    if (index === 0) dispatch(focusQuestionAt({ index: 0 }));
+    else dispatch(focusQuestionAt({ index: index - 1 }));
   };
   const onChangeRequired = (index) => {
     dispatch(toggleRequiredAt({ index }));
@@ -31,18 +32,20 @@ export const QuestionSetting = ({ indexQuestion, isRequired }) => {
     <>
       <Divider style={{ marginTop: 12, marginBottom: 12 }} />
       <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-        <button
+        <Button
+          icon={<CopyOutlined />}
+          shape="circle"
+          size="large"
           onClick={() => onClickDuplicateQuestion(indexQuestion)}
           className="duplicate"
-        >
-          복사
-        </button>
-        <button
+        />
+        <Button
+          icon={<DeleteOutlined />}
+          shape="circle"
+          size="large"
           onClick={() => onClickRemoveQuestion(indexQuestion)}
           className="remove"
-        >
-          삭제
-        </button>
+        />
         <Divider type="vertical" />
         <Space>필수</Space>
         <Switch

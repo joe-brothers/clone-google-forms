@@ -25,6 +25,9 @@ export const EtcSentence = ({ ComponentToCheck, isFocused, index }) => {
           style={{
             position: "absolute",
             right: 30,
+            color: "#aaa",
+            fontSize: 16,
+            marginTop: -16
           }}
           onClick={() => onClickRemoveEtc(index)}
         />

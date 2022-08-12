@@ -36,7 +36,12 @@ export const InputSentence = ({
       />
       {optionList.length > 1 && (
         <CloseOutlined
-          style={{ position: "absolute", right: 30 }}
+          style={{
+            position: "absolute",
+            right: 30,
+            color: "#aaa",
+            fontSize: 16,
+          }}
           onClick={() =>
             onClickRemoveOption({
               indexQuestion,

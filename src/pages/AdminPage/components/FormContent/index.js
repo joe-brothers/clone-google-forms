@@ -1,3 +1,3 @@
-import { FormContent } from "./\bFormContent";
+import { FormContent } from "./FormContent";
 
 export { FormContent };
