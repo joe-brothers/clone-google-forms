@@ -8,6 +8,7 @@ import { unfocusQuestionAt } from "../../../../redux/slices/contentSlice";
 import { Typography, Input, Card } from "antd";
 import { purple } from "@ant-design/colors";
 import "antd/dist/antd.min.css";
+import { ButtonAddQuestion } from "../FormContent/ButtonAddQuestion";
 const { Text, Title } = Typography;
 
 export const FormTitle = () => {
@@ -59,6 +60,7 @@ export const FormTitle = () => {
       ) : (
         <Text>{description || "설문지 설명"}</Text>
       )}
+      {isFocused && <ButtonAddQuestion isTitle={true} />}
     </Card>
   );
 };

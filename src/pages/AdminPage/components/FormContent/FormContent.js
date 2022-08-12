@@ -18,7 +18,6 @@ import {
   Radio,
   Checkbox,
 } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
 import { purple, grey } from "@ant-design/colors";
 import { OptionTextLong, OptionTextShort } from "./OptionText";
 import { EtcSentence } from "./EtcSentence";
@@ -26,6 +25,7 @@ import { AddOptionOrEtc } from "./AddOptionOrEtc";
 import { InputSentence } from "./InputSentence";
 import { QuestionSetting } from "./QuestionSetting";
 import "antd/dist/antd.min.css";
+import { ButtonAddQuestion } from "./ButtonAddQuestion";
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -40,11 +40,11 @@ export const FormContent = () => {
     });
   };
 
-  const onClickAddQuestion = (e, index) => {
-    e.stopPropagation();
-    dispatch(addDefaultQuestionAt({ index: index + 1 }));
-    dispatch(unfocusQuestionAt({ index }));
-  };
+  // const onClickAddQuestion = (e, index) => {
+  //   e.stopPropagation();
+  //   dispatch(addDefaultQuestionAt({ index: index + 1 }));
+  //   dispatch(unfocusQuestionAt({ index }));
+  // };
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
   };
@@ -74,14 +74,10 @@ export const FormContent = () => {
               }}
             >
               {isFocused && (
-                <button
-                  onClick={(e) => {
-                    onClickAddQuestion(e, indexQuestion);
-                  }}
-                  style={{ position: "absolute", top: 0, right: "-12%" }}
-                >
-                  질문 추가
-                </button>
+                <ButtonAddQuestion
+                  indexQuestion={indexQuestion}
+                  isTitle={false}
+                />
               )}
               <Space direction="vertical" style={{ width: "100%" }}>
                 <Space
