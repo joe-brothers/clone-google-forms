@@ -11,7 +11,10 @@ export const OptionChoices = ({
   return (
     <>
       {optionList.map((option, indexOption) => (
-        <Space style={{ fontSize: 14, width: "100%", marginTop: 8 }}>
+        <Space
+          key={`option_${indexQuestion}_${indexOption}`}
+          style={{ fontSize: 14, width: "100%", marginTop: 8 }}
+        >
           {ComponentToCheck}
           {isFocused ? (
             <InputSentence

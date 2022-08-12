@@ -37,7 +37,6 @@ export const SubmitPage = () => {
             hasEtc,
             isRequired,
             chosenOptions,
-            isEtcChosen,
             etcInput,
           },
           indexQuestion
@@ -81,7 +80,7 @@ export const SubmitPage = () => {
                       >
                         <Radio
                           disabled
-                          checked={isEtcChosen}
+                          checked={chosenOptions.includes('기타')}
                           style={{ flexShrink: 0 }}
                         >
                           기타:
@@ -114,7 +113,7 @@ export const SubmitPage = () => {
                     >
                       <Checkbox
                         disabled
-                        checked={isEtcChosen}
+                        checked={chosenOptions.includes("기타")}
                         style={{ flexShrink: 0, marginRight: 8 }}
                       >
                         기타:
@@ -132,7 +131,7 @@ export const SubmitPage = () => {
                 <Space direction="vertical" style={{ width: "100%" }}>
                   {optionList.map((option) => (
                     <Text>
-                      {option} {chosenOptions.includes(option) && `(선택)`}
+                      {`${option} - ${chosenOptions.includes(option) && `(선택)`}`}
                     </Text>
                   ))}
                 </Space>

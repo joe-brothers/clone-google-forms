@@ -12,7 +12,6 @@ export const contentSlice = createSlice({
         isRequired: false,
         isFocused: true,
         chosenOptions: [],
-        isEtcChosen: false,
         etcInput: "",
       },
     ],
@@ -34,6 +33,8 @@ export const contentSlice = createSlice({
         hasEtc: false,
         isRequired: false,
         isFocused: true,
+        chosenOptions: [],
+        etcInput: "",
       };
       state.questions.push(defaultQuestion);
     },
@@ -46,12 +47,18 @@ export const contentSlice = createSlice({
         hasEtc: false,
         isRequired: false,
         isFocused: true,
+        chosenOptions: [],
+        etcInput: "",
       };
       state.questions.splice(index, 0, defaultQuestion);
     },
     duplicateQuestionAt: (state, action) => {
       const { index } = action.payload;
-      let duplicatedQuestion = { ...state.questions[index] };
+      let duplicatedQuestion = {
+        ...state.questions[index],
+        chosenOptions: [],
+        etcInput: "",
+      };
       state.questions.splice(index + 1, 0, duplicatedQuestion);
     },
     removeQuestionAt: (state, action) => {
@@ -93,10 +100,41 @@ export const contentSlice = createSlice({
       state.questions[indexQuestion].optionList.splice(indexOption, 1);
     },
     // PreviewPage, SubmitPage
+    updateOptionText: (state, action) => {
+      const { index, text } = action.payload;
+      state.questions[index].chosenOptions[0] = text;
+    },
+    updateOptionRadio: (state, action) => {
+      const { index, value } = action.payload;
+      state.questions[index].chosenOptions[0] = value;
+    },
+    updateOptionCheckbox: (state, action) => {
+      const { index, value, checked } = action.payload;
+      if (checked) state.questions[index].chosenOptions.push(value);
+      else
+        state.questions[index].chosenOptions.splice(
+          state.questions[index].chosenOptions.indexOf(value),
+          1
+        );
+    },
+    updateEtcInput: (state, action) => {
+      const { index, etcInput } = action.payload;
+      if (!state.questions[index].chosenOptions.includes("기타")) {
+        if (state.questions[index].type === "radio") {
+          state.questions[index].chosenOptions = [];
+        }
+        state.questions[index].chosenOptions.push("기타");
+      }
+      state.questions[index].etcInput = etcInput;
+    },
   },
 });
 
 export const {
+  updateOptionText,
+  updateOptionRadio,
+  updateOptionCheckbox,
+  updateEtcInput,
   focusQuestionAt,
   unfocusQuestionAt,
   addDefaultQuestion,
