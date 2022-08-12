@@ -127,6 +127,7 @@ export const PreviewPage = () => {
               )}
               {type === "radio" && (
                 <Radio.Group
+                  value={chosenOptions[0]}
                   style={{ width: "100%" }}
                   onChange={(e) => onChangeOptionRadio({ e, indexQuestion })}
                 >
@@ -135,10 +136,8 @@ export const PreviewPage = () => {
                       <Radio
                         key={`q${indexQuestion}_radio${optionIndex}`}
                         value={option}
-                        checked={chosenOptions.includes(option)}
                       >
-                        {/* {option} */}
-                        {`${option} - ${chosenOptions.includes(option)}`}
+                        {option}
                       </Radio>
                     ))}
                     {hasEtc && (
@@ -150,13 +149,8 @@ export const PreviewPage = () => {
                           alignItems: "center",
                         }}
                       >
-                        <Radio
-                          value="기타"
-                          checked={chosenOptions.includes("기타")}
-                          style={{ flexShrink: 0 }}
-                        >
-                          {/* 기타: */}
-                          {`기타 - ${chosenOptions.includes("기타")}`}
+                        <Radio value="기타" style={{ flexShrink: 0 }}>
+                          기타:
                         </Radio>
                         <Input
                           value={etcInput}

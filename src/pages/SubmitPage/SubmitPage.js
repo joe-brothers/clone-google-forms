@@ -71,7 +71,7 @@ export const SubmitPage = () => {
                 <TextArea disabled autoSize value={chosenOptions[0]} />
               )}
               {type === "radio" && (
-                <Radio.Group style={{ width: "100%" }}>
+                <Radio.Group value={chosenOptions[0]} style={{ width: "100%" }}>
                   <Space direction="vertical" style={{ width: "100%" }}>
                     {optionList.map((option) => (
                       <Radio
@@ -91,11 +91,7 @@ export const SubmitPage = () => {
                           alignItems: "center",
                         }}
                       >
-                        <Radio
-                          disabled
-                          checked={chosenOptions.includes("기타")}
-                          style={{ flexShrink: 0 }}
-                        >
+                        <Radio disabled value="기타" style={{ flexShrink: 0 }}>
                           기타:
                         </Radio>
                         <Input
