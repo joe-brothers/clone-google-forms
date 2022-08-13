@@ -7,6 +7,8 @@ import {
   changeTitleAt,
   addOptionAt,
   moveQuestion,
+  setIndexFrom,
+  setIndexTo,
 } from "../../../../redux/slices/contentSlice";
 import { Space, Typography, Input, Button, Card, Select, Radio, Checkbox } from "antd";
 import { purple, grey } from "@ant-design/colors";
@@ -18,14 +20,13 @@ import { QuestionSetting } from "./QuestionSetting";
 import "antd/dist/antd.min.css";
 import { ButtonAddQuestion } from "./ButtonAddQuestion";
 import { OptionChoices } from "./OptionChoices";
-import { setIndexDragStart, setIndexDrop } from "../../../../redux/slices/dragSlice";
 const { Option } = Select;
 const { Text } = Typography;
 
 export const FormContent = () => {
   const dispatch = useDispatch();
-  const { questions } = useSelector((state) => state.formContent);
-  const dragData = useSelector((state) => state.dragData);
+  const { questions, dragData } = useSelector((state) => state.formContent);
+  // const dragData = useSelector((state) => state.dragData);
 
   const unfocusAllQuestions = () => {
     if (questions.length === 0) return;
@@ -41,8 +42,8 @@ export const FormContent = () => {
     dispatch(addOptionAt({ index }));
   };
 
-  const getCoordinatesOfQuestions = (length) => {
-    return [...new Array(length).keys()].map((index) => {
+  const getCoordinatesOfQuestions = () => {
+    return [...new Array(questions.length).keys()].map((index) => {
       return {
         top: document.querySelectorAll(".draggable")[index].getBoundingClientRect().top,
         bottom:
@@ -53,26 +54,24 @@ export const FormContent = () => {
   };
 
   const onDragStartQuestion = (e) => {
-    console.log("drag start");
-
-    const questionCoords = getCoordinatesOfQuestions(questions.length);
+    const questionCoords = getCoordinatesOfQuestions();
     for (let i = 0; i < questions.length; i++) {
       if (questionCoords[i].top <= e.pageY && e.pageY <= questionCoords[i].bottom) {
-        dispatch(setIndexDragStart({ index: i }));
+        dispatch(setIndexFrom({ indexFrom: i }));
+        console.log(`from ${i}`);
       }
     }
   };
 
   const onDropQuestion = (e) => {
-    console.log("drop");
-
-    const questionCoords = getCoordinatesOfQuestions(questions.length);
+    const questionCoords = getCoordinatesOfQuestions();
     for (let i = 0; i < questions.length; i++) {
       if (questionCoords[i].top <= e.pageY && e.pageY <= questionCoords[i].bottom) {
-        dispatch(setIndexDrop({ index: i }));
+        dispatch(setIndexTo({ indexTo: i }));
+        console.log(`to ${i}`);
       }
     }
-    dispatch(moveQuestion({ indexFrom: dragData.indexDragStart, indexTo: dragData.indexDrop }));
+    dispatch(moveQuestion());
   };
 
   return (

@@ -16,6 +16,10 @@ export const contentSlice = createSlice({
         isError: false,
       },
     ],
+    dragData: {
+      indexFrom: 0,
+      indexTo: 0,
+    },
   },
   reducers: {
     fillDummyQuestions: (state) => {
@@ -186,9 +190,19 @@ export const contentSlice = createSlice({
       else state.questions[indexQuestion].isError = false;
     },
     // drag & drop
-    moveQuestion: (state, action) => {
-      const { indexFrom, indexTo } = action.payload;
+    setIndexFrom: (state, action) => {
+      const { indexFrom } = action.payload;
+      state.dragData.indexFrom = indexFrom;
+    },
+    setIndexTo: (state, action) => {
+      const { indexTo } = action.payload;
+      state.dragData.indexTo = indexTo;
+    },
+    moveQuestion: (state) => {
+      const { indexFrom, indexTo } = state.dragData;
       const questionToMove = { ...state.questions[indexFrom] };
+
+      if (indexFrom === indexTo) return;
       state.questions.splice(indexFrom, 1);
       state.questions.splice(indexTo, 0, questionToMove);
     },
@@ -218,5 +232,7 @@ export const {
   markAsError,
   unmarkAsError,
   updateErrorStatus,
+  setIndexFrom,
+  setIndexTo,
   moveQuestion,
 } = contentSlice.actions;
