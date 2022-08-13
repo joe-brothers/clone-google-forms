@@ -164,7 +164,7 @@ export const contentSlice = createSlice({
       if (checked) state.questions[index].chosenOptions.push(value);
       else state.questions[index].chosenOptions.splice(state.questions[index].chosenOptions.indexOf(value), 1);
     },
-    clearOptionDropdown: (state, action) => {
+    clearChosenOptions: (state, action) => {
       const { index } = action.payload;
       state.questions[index].chosenOptions = [];
     },
@@ -215,7 +215,7 @@ export const {
   updateOptionRadio,
   updateOptionCheckbox,
   updateEtcInput,
-  clearOptionDropdown,
+  clearChosenOptions,
   focusQuestionAt,
   unfocusQuestionAt,
   addDefaultQuestionAt,

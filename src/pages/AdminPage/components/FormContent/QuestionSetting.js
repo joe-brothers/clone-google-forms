@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Divider, Space, Switch, Tooltip } from "antd";
+import { Button, Divider, notification, Space, Switch, Tooltip } from "antd";
 import {
   duplicateQuestionAt,
   focusQuestionAt,
@@ -21,7 +21,15 @@ export const QuestionSetting = ({ indexQuestion, isRequired }) => {
   };
   const onClickRemoveQuestion = (e, index) => {
     e.stopPropagation();
+    // 질문을 삭제합니다.
     dispatch(removeQuestionAt({ index }));
+    // 왼쪽 하단에 알림창을 띄웁니다.
+    notification.info({
+      message: '항목을 삭제했습니다.',
+      duration: 2,
+      placement: 'bottomLeft'
+    });
+    // 남은 질문 개수, 삭제한 질문의 인덱스에 따라 적절히 focus를 넣어줍니다.
     if (questions.length === 0) return;
     if (index === 0) dispatch(focusQuestionAt({ index: 0 }));
     else dispatch(focusQuestionAt({ index: index - 1 }));

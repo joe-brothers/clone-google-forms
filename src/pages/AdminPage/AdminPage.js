@@ -37,6 +37,9 @@ export const AdminPage = () => {
       </Space>
       <FormTitle />
       <FormContent />
+      <Button type="primary" onClick={onClickPreview}>
+        미리보기
+      </Button>
     </Space>
   );
 };

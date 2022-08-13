@@ -10,7 +10,7 @@ import {
   setIndexFrom,
   setIndexTo,
 } from "../../../../redux/slices/contentSlice";
-import { Space, Typography, Input, Button, Card, Select, Radio, Checkbox } from "antd";
+import { Space, Typography, Input, Button, Card, Select, Radio, Checkbox, Divider } from "antd";
 import { purple, grey } from "@ant-design/colors";
 import { OptionTextLong, OptionTextShort } from "./OptionText";
 import { EtcChoice } from "./EtcChoice";

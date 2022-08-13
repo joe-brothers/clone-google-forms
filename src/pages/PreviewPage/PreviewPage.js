@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Space, Card, Typography, Select, Input, Checkbox, Radio, Button } from "antd";
+import { Space, Card, Typography, Select, Input, Checkbox, Radio, Button, Divider } from "antd";
 import "antd/dist/antd.min.css";
 import { useNavigate } from "react-router-dom";
 import {
-  clearOptionDropdown,
+  clearChosenOptions,
   updateErrorStatus,
   updateEtcInput,
   updateOptionCheckbox,
@@ -20,6 +20,10 @@ export const PreviewPage = () => {
   const dispatch = useDispatch();
   const { title, description } = useSelector((state) => state.formTitle);
   const { questions } = useSelector((state) => state.formContent);
+
+  const onClickGoBack = () => {
+    navigate("/");
+  };
 
   const onClickSubmit = () => {
     let errorNum = 0;
@@ -57,8 +61,8 @@ export const PreviewPage = () => {
     dispatch(updateOptionRadio({ index: indexQuestion, value }));
     dispatch(updateErrorStatus({ indexQuestion }));
   };
-  const onClearOptionDropdown = ({ indexQuestion }) => {
-    dispatch(clearOptionDropdown({ index: indexQuestion }));
+  const onClearChosenOptions = ({ indexQuestion }) => {
+    dispatch(clearChosenOptions({ index: indexQuestion }));
     dispatch(updateErrorStatus({ indexQuestion }));
   };
   const onChangeEtcInput = ({ e, indexQuestion }) => {
@@ -121,38 +125,47 @@ export const PreviewPage = () => {
                 />
               )}
               {type === "radio" && (
-                <Radio.Group
-                  value={chosenOptions[0]}
-                  style={{ width: "100%" }}
-                  onChange={(e) => onChangeOptionRadio({ e, indexQuestion })}
-                >
-                  <Space direction="vertical" style={{ width: "100%" }}>
-                    {optionList.map((option, optionIndex) => (
-                      <Radio key={`q${indexQuestion}_radio${optionIndex}`} value={option}>
-                        {option}
-                      </Radio>
-                    ))}
-                    {hasEtc && (
-                      <div
-                        style={{
-                          fontSize: 14,
-                          width: "100%",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Radio value="기타" style={{ flexShrink: 0 }}>
-                          기타:
+                <>
+                  <Radio.Group
+                    value={chosenOptions[0]}
+                    style={{ width: "100%" }}
+                    onChange={(e) => onChangeOptionRadio({ e, indexQuestion })}
+                  >
+                    <Space direction="vertical" style={{ width: "100%" }}>
+                      {optionList.map((option, optionIndex) => (
+                        <Radio key={`q${indexQuestion}_radio${optionIndex}`} value={option}>
+                          {option}
                         </Radio>
-                        <Input
-                          value={etcInput}
-                          onChange={(e) => onChangeEtcInput({ e, indexQuestion })}
-                          style={{ width: "100%", flexGrow: 1 }}
-                        />
-                      </div>
-                    )}
-                  </Space>
-                </Radio.Group>
+                      ))}
+                      {hasEtc && (
+                        <div
+                          style={{
+                            fontSize: 14,
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Radio value="기타" style={{ flexShrink: 0 }}>
+                            기타:
+                          </Radio>
+                          <Input
+                            value={etcInput}
+                            onChange={(e) => onChangeEtcInput({ e, indexQuestion })}
+                            style={{ width: "100%", flexGrow: 1 }}
+                          />
+                        </div>
+                      )}
+                    </Space>
+                  </Radio.Group>
+                  {!isRequired && chosenOptions.length !== 0 && (
+                    <Space style={{ width: "100%", marginTop: 8, justifyContent: "flex-end" }}>
+                      <Button type="link" onClick={() => onClearChosenOptions({ indexQuestion })}>
+                        선택해제
+                      </Button>
+                    </Space>
+                  )}
+                </>
               )}
               {type === "checkbox" && (
                 <Space direction="vertical" style={{ width: "100%" }}>
@@ -196,7 +209,7 @@ export const PreviewPage = () => {
                 <Select
                   allowClear={true}
                   onSelect={(value) => onSelectOptionDropdown({ value, indexQuestion })}
-                  onClear={() => onClearOptionDropdown({ indexQuestion })}
+                  onClear={() => onClearChosenOptions({ indexQuestion })}
                   value={chosenOptions[0]}
                   placeholder="선택"
                   style={{ width: 200 }}
@@ -219,9 +232,12 @@ export const PreviewPage = () => {
         }
       )}
 
-      <Button type="primary" style={{ width: 70 }} onClick={onClickSubmit}>
-        제출
-      </Button>
+      <Space>
+        <Button type="primary" style={{ width: 70 }} onClick={onClickSubmit}>
+          제출
+        </Button>
+        <Button onClick={onClickGoBack}>뒤로 가기</Button>
+      </Space>
     </Space>
   );
 };
