@@ -185,6 +185,13 @@ export const contentSlice = createSlice({
         state.questions[indexQuestion].isError = true;
       else state.questions[indexQuestion].isError = false;
     },
+    // drag & drop
+    moveQuestion: (state, action) => {
+      const { indexFrom, indexTo } = action.payload;
+      const questionToMove = { ...state.questions[indexFrom] };
+      state.questions.splice(indexFrom, 1);
+      state.questions.splice(indexTo, 0, questionToMove);
+    },
   },
 });
 
@@ -211,4 +218,5 @@ export const {
   markAsError,
   unmarkAsError,
   updateErrorStatus,
+  moveQuestion,
 } = contentSlice.actions;

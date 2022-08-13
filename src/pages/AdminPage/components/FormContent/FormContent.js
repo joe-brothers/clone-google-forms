@@ -6,6 +6,7 @@ import {
   changeQuestionType,
   changeTitleAt,
   addOptionAt,
+  moveQuestion,
 } from "../../../../redux/slices/contentSlice";
 import { Space, Typography, Input, Button, Card, Select, Radio, Checkbox } from "antd";
 import { purple, grey } from "@ant-design/colors";
@@ -17,12 +18,14 @@ import { QuestionSetting } from "./QuestionSetting";
 import "antd/dist/antd.min.css";
 import { ButtonAddQuestion } from "./ButtonAddQuestion";
 import { OptionChoices } from "./OptionChoices";
+import { setIndexDragStart, setIndexDrop } from "../../../../redux/slices/dragSlice";
 const { Option } = Select;
 const { Text } = Typography;
 
 export const FormContent = () => {
   const dispatch = useDispatch();
   const { questions } = useSelector((state) => state.formContent);
+  const dragData = useSelector((state) => state.dragData);
 
   const unfocusAllQuestions = () => {
     if (questions.length === 0) return;
@@ -38,6 +41,40 @@ export const FormContent = () => {
     dispatch(addOptionAt({ index }));
   };
 
+  const getCoordinatesOfQuestions = (length) => {
+    return [...new Array(length).keys()].map((index) => {
+      return {
+        top: document.querySelectorAll(".draggable")[index].getBoundingClientRect().top,
+        bottom:
+          document.querySelectorAll(".draggable")[index].getBoundingClientRect().top +
+          document.querySelectorAll(".draggable")[index].getBoundingClientRect().height,
+      };
+    });
+  };
+
+  const onDragStartQuestion = (e) => {
+    console.log("drag start");
+
+    const questionCoords = getCoordinatesOfQuestions(questions.length);
+    for (let i = 0; i < questions.length; i++) {
+      if (questionCoords[i].top <= e.pageY && e.pageY <= questionCoords[i].bottom) {
+        dispatch(setIndexDragStart({ index: i }));
+      }
+    }
+  };
+
+  const onDropQuestion = (e) => {
+    console.log("drop");
+
+    const questionCoords = getCoordinatesOfQuestions(questions.length);
+    for (let i = 0; i < questions.length; i++) {
+      if (questionCoords[i].top <= e.pageY && e.pageY <= questionCoords[i].bottom) {
+        dispatch(setIndexDrop({ index: i }));
+      }
+    }
+    dispatch(moveQuestion({ indexFrom: dragData.indexDragStart, indexTo: dragData.indexDrop }));
+  };
+
   return (
     <Space direction="vertical" size="large">
       {questions.map(({ title, type, optionList, hasEtc, isRequired, isFocused }, indexQuestion) => {
@@ -51,11 +88,16 @@ export const FormContent = () => {
               borderRadius: 10,
               width: 700,
             }}
-            onClick={(e) => {
+            onClick={() => {
               dispatch(unfocusTitleCard());
               unfocusAllQuestions();
               dispatch(focusQuestionAt({ index: indexQuestion }));
             }}
+            className="draggable"
+            draggable={true}
+            onDragStart={onDragStartQuestion}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={onDropQuestion}
           >
             {isFocused && <ButtonAddQuestion indexQuestion={indexQuestion} isTitle={false} />}
             <Space direction="vertical" style={{ width: "100%" }}>
