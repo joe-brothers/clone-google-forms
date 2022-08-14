@@ -21,8 +21,9 @@ export const ButtonAddQuestion = ({ indexQuestion, isTitle }) => {
   return (
     <Tooltip title="질문 추가" placement="right">
       <Button
+        id="form-button-add-question"
         size="large"
-        style={{ position: "absolute", top: 0, right: "-9%" }}
+        style={{ zIndex: 10 }}
         icon={<PlusCircleOutlined />}
         onClick={(e) => {
           onClickAddQuestion(e, indexQuestion);

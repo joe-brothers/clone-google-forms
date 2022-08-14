@@ -4,3 +4,40 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+#root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#form-container {
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+@media (min-width: 650px) {
+  #form-input {
+    width: 400px;
+  }
+}
+
+@media (max-width: 800px) {
+  #form-button-add-question {
+    position: absolute;
+    bottom: -20px;
+    left: 10px;
+  }
+}
+
+@media (min-width: 801px) {
+  #form-button-add-question {
+    position: absolute;
+    top: 0;
+    right: -9%;
+  }
+  #form-container {
+    width: 700px;
+  }
+}

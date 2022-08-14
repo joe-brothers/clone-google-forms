@@ -1,7 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Space, Card, Typography, Select, Input, Checkbox, Radio, Button, Divider } from "antd";
-import "antd/dist/antd.min.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   clearChosenOptions,
   updateErrorStatus,
@@ -10,7 +8,10 @@ import {
   updateOptionRadio,
   updateOptionText,
 } from "redux/slices/contentSlice";
+import { checkFormHasRequired } from "utils/functions";
+import { Space, Card, Typography, Select, Input, Checkbox, Radio, Button, Divider } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import "antd/dist/antd.min.css";
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
@@ -70,16 +71,8 @@ export const PreviewPage = () => {
     dispatch(updateErrorStatus({ indexQuestion }));
   };
 
-  const checkFormHasRequired = () => {
-    let hasRequired = false;
-    questions.forEach(({ isRequired }) => {
-      if (isRequired) hasRequired = true;
-    });
-    return hasRequired;
-  };
-
   return (
-    <Space direction="vertical" size="large" style={{ display: "flex", width: 700, paddingTop: 50, paddingBottom: 50 }}>
+    <Space direction="vertical" size="large" style={{ display: "flex", width: 700, padding: "50px 30px" }}>
       <Card
         style={{
           border: `2px solid #e4e4e4"`,
@@ -89,7 +82,11 @@ export const PreviewPage = () => {
       >
         <Title level={2}>{title}</Title>
         <Text>{description}</Text>
-        {checkFormHasRequired() && <Text type="danger">* 필수항목</Text>}
+        {checkFormHasRequired(questions) && (
+          <Text type="danger" style={{ display: "block", marginTop: 8 }}>
+            * 필수항목
+          </Text>
+        )}
       </Card>
       {questions.map(
         ({ title, type, optionList, hasEtc, isRequired, isError, chosenOptions, etcInput }, indexQuestion) => {

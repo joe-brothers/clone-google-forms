@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
+import { checkFormHasRequired } from "utils/functions";
 import { Space, Card, Typography, Select, Input, Checkbox, Radio, Button } from "antd";
-import { CheckCircleTwoTone, CheckOutlined } from "@ant-design/icons";
+import { CheckCircleTwoTone } from "@ant-design/icons";
 import "antd/dist/antd.min.css";
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -11,7 +12,7 @@ export const SubmitPage = () => {
   const { questions } = useSelector((state) => state.formContent);
 
   return (
-    <Space direction="vertical" size="large" style={{ display: "flex", width: 700, paddingTop: 50, paddingBottom: 50 }}>
+    <Space direction="vertical" size="large" style={{ display: "flex", width: 700, padding: "50px 30px" }}>
       <Card
         style={{
           border: `2px solid #e4e4e4"`,
@@ -19,8 +20,13 @@ export const SubmitPage = () => {
           boxShadow: `rgb(0 0 0 / 5%) 0px 0px 10px 5px`,
         }}
       >
-        <Title level={2}>{title} : 제출 내역</Title>
+        <Title level={2}>[제출 내역] {title}</Title>
         <Text>{description}</Text>
+        {checkFormHasRequired(questions) && (
+          <Text type="danger" style={{ display: "block", marginTop: 8 }}>
+            * 필수항목
+          </Text>
+        )}
       </Card>
       {questions.map(({ title, type, optionList, hasEtc, isRequired, chosenOptions, etcInput }, indexQuestion) => {
         return (

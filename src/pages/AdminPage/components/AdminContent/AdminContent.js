@@ -75,7 +75,7 @@ export const AdminContent = () => {
   };
 
   return (
-    <Space direction="vertical" size="large">
+    <Space direction="vertical" size="large" style={{ width: "100%" }}>
       {questions.map(({ title, type, optionList, hasEtc, isRequired, isFocused }, indexQuestion) => {
         return (
           <Card
@@ -85,7 +85,7 @@ export const AdminContent = () => {
               boxShadow: `rgb(0 0 0 / ${isFocused ? 15 : 5}%) 0px 0px 10px 5px`,
               border: `2px solid ${isFocused ? purple.primary : "#e4e4e4"}`,
               borderRadius: 10,
-              width: 700,
+              width: "100%",
             }}
             onClick={() => {
               dispatch(unfocusTitleCard());
@@ -100,15 +100,17 @@ export const AdminContent = () => {
           >
             {isFocused && <ButtonAddQuestion indexQuestion={indexQuestion} isTitle={false} />}
             <Space direction="vertical" style={{ width: "100%" }}>
-              <Space style={{ width: "100%", justifyContent: "space-between" }}>
+              <div
+                style={{ width: "100%", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}
+              >
                 {isFocused ? (
                   <>
                     <Input
+                      id="form-input"
                       size="large"
                       placeholder="질문"
                       value={title}
                       onChange={(e) => onChangeTitle(e, indexQuestion)}
-                      style={{ width: 400 }}
                     />
                     <Select
                       value={type}
@@ -130,7 +132,7 @@ export const AdminContent = () => {
                     {isRequired && <Text type="danger">*</Text>}
                   </Space>
                 )}
-              </Space>
+              </div>
 
               {/* 답변 목록 (단답형/장문형/체크박스 등등) */}
               {type === "textShort" && <OptionTextShort />}

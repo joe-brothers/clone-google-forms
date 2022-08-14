@@ -25,7 +25,7 @@ export const AdminTitle = () => {
         border: `2px solid ${isFocused ? purple.primary : "#e4e4e4"}`,
         borderRadius: 10,
         boxShadow: `rgb(0 0 0 / ${isFocused ? 15 : 5}%) 0px 0px 10px 5px`,
-        width: 700,
+        width: "100%",
       }}
       onClick={() => {
         unfocusAllQuestions();

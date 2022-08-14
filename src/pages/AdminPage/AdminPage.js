@@ -18,15 +18,16 @@ export const AdminPage = () => {
   };
 
   return (
-    <Space
-      direction="vertical"
-      size="large"
+    <section
+      id="form-container"
       style={{
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
-        position: "relative",
+        gap: 30,
         paddingTop: 50,
         paddingBottom: 50,
+        position: "relative",
       }}
     >
       <Space>
@@ -40,6 +41,6 @@ export const AdminPage = () => {
       <Button type="primary" onClick={onClickPreview}>
         미리보기
       </Button>
-    </Space>
+    </section>
   );
 };
