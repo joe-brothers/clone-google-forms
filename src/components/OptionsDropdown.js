@@ -1,10 +1,9 @@
 import { useDispatch } from "react-redux";
 import { clearChosenOptions, updateErrorStatus, updateOptionRadio } from "redux/slices/contentSlice";
-import { Space, Typography, Select } from "antd";
-import { CheckCircleTwoTone } from "@ant-design/icons";
+import { Space, Typography, Dropdown, Button, Menu } from "antd";
+import { CheckCircleTwoTone, DownOutlined } from "@ant-design/icons";
 import "antd/dist/antd.min.css";
 const { Text } = Typography;
-const { Option } = Select;
 
 export const OptionsDropdown = ({ typeContents, indexQuestion, optionList, chosenOptions }) => {
   const dispatch = useDispatch();
@@ -18,23 +17,41 @@ export const OptionsDropdown = ({ typeContents, indexQuestion, optionList, chose
     dispatch(updateErrorStatus({ indexQuestion }));
   };
 
+  const dropdownMenuItems = [
+    { label: "선택", key: "선택" },
+    { type: "divider" },
+    ...optionList.map((option) => ({
+      label: option,
+      key: option,
+    })),
+  ];
+
+  const dropdownMenu = ({ indexQuestion }) => {
+    return (
+      <Menu
+        onClick={({ key }) => {
+          if (key === "선택") {
+            onClearChosenOptions({ indexQuestion });
+            return;
+          }
+          onSelectOptionDropdown({ value: key, indexQuestion });
+        }}
+        items={dropdownMenuItems}
+      />
+    );
+  };
+
   return (
     <>
       {typeContents === "preview" && (
-        <Select
-          allowClear={true}
-          onSelect={(value) => onSelectOptionDropdown({ value, indexQuestion })}
-          onClear={() => onClearChosenOptions({ indexQuestion })}
-          value={chosenOptions[0]}
-          placeholder="선택"
-          style={{ width: 200 }}
-        >
-          {optionList.map((option, optionIndex) => (
-            <Option key={`${typeContents}_${indexQuestion}_drop${optionIndex}`} value={option}>
-              {option}
-            </Option>
-          ))}
-        </Select>
+        <Dropdown overlay={dropdownMenu({ indexQuestion })} trigger="click">
+          <Button style={{ width: 150 }}>
+            <Space style={{ width: "100%", justifyContent: "space-between" }}>
+              {chosenOptions[0] || "선택"}
+              <DownOutlined />
+            </Space>
+          </Button>
+        </Dropdown>
       )}
       {typeContents === "submit" && (
         <Space direction="vertical" style={{ width: "100%" }}>

@@ -10,7 +10,7 @@ import {
   setIndexFrom,
   setIndexTo,
 } from "redux/slices/contentSlice";
-import { Space, Typography, Input, Button, Card, Select, Radio, Checkbox, Divider } from "antd";
+import { Space, Typography, Input, Button, Card, Select, Radio, Checkbox, Divider, Dropdown, Menu } from "antd";
 import { purple, grey } from "@ant-design/colors";
 import { OptionTextLong, OptionTextShort } from "./OptionText";
 import { EtcChoice } from "./EtcChoice";
@@ -20,6 +20,8 @@ import { QuestionSetting } from "./QuestionSetting";
 import "antd/dist/antd.min.css";
 import { ButtonAddQuestion } from "./ButtonAddQuestion";
 import { OptionChoices } from "./OptionChoices";
+import { DownOutlined } from "@ant-design/icons";
+import { questionTypeMenuItems, typeMatchObject } from "utils/objects";
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -27,6 +29,17 @@ export const AdminContent = () => {
   const dispatch = useDispatch();
   const { questions, dragData } = useSelector((state) => state.formContent);
   // const dragData = useSelector((state) => state.dragData);
+
+  const questionTypeMenu = (indexQuestion) => {
+    return (
+      <Menu
+        onClick={({ key }) => {
+          dispatch(changeQuestionType({ type: key, index: indexQuestion }));
+        }}
+        items={questionTypeMenuItems}
+      />
+    );
+  };
 
   const unfocusAllQuestions = () => {
     if (questions.length === 0) return;
@@ -112,19 +125,14 @@ export const AdminContent = () => {
                       value={title}
                       onChange={(e) => onChangeTitle(e, indexQuestion)}
                     />
-                    <Select
-                      value={type}
-                      onSelect={(type) => {
-                        dispatch(changeQuestionType({ type, index: indexQuestion }));
-                      }}
-                      style={{ width: 120 }}
-                    >
-                      <Option value="textShort">단답형</Option>
-                      <Option value="textLong">장문형</Option>
-                      <Option value="radio">객관식 질문</Option>
-                      <Option value="checkbox">체크박스</Option>
-                      <Option value="dropdown">드롭다운</Option>
-                    </Select>
+                    <Dropdown overlay={questionTypeMenu(indexQuestion)} trigger="click">
+                      <Button style={{ width: 150 }}>
+                        <Space style={{ width: "100%", justifyContent: "space-between" }}>
+                          {typeMatchObject[type]}
+                          <DownOutlined />
+                        </Space>
+                      </Button>
+                    </Dropdown>
                   </>
                 ) : (
                   <Space style={{ fontSize: 16 }}>
