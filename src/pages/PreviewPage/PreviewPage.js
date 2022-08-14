@@ -1,19 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateErrorStatus } from "redux/slices/contentSlice";
+import { clearForm, updateErrorStatus } from "redux/slices/contentSlice";
 import { CardTitle } from "components/CardTitle";
 import { CardContents } from "components/CardContents";
-import { Space, Button } from "antd";
+import { Space, Button, Modal } from "antd";
 import "antd/dist/antd.min.css";
+import { useState } from "react";
 
 export const PreviewPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { questions } = useSelector((state) => state.formContent);
-
-  const onClickGoBack = () => {
-    navigate("/");
-  };
+  const [isModalOn, setIsModalOn] = useState(false);
 
   const onClickSubmit = () => {
     let errorNum = 0;
@@ -29,16 +27,41 @@ export const PreviewPage = () => {
     }
   };
 
+  const onClickGoBack = () => {
+    navigate("/");
+  };
+
+  const onClickClearForm = () => {
+    dispatch(clearForm());
+    setIsModalOn(false);
+  };
+
   return (
-    <Space direction="vertical" size="large" style={{ display: "flex", width: 700, padding: "50px 30px" }}>
-      <CardTitle />
-      <CardContents typeContents="preview" />
-      <Space>
-        <Button type="primary" style={{ width: 70 }} onClick={onClickSubmit}>
-          제출
-        </Button>
-        <Button onClick={onClickGoBack}>뒤로 가기</Button>
+    <>
+      <Space direction="vertical" size="large" style={{ display: "flex", width: 700, padding: "50px 30px" }}>
+        <CardTitle />
+        <CardContents typeContents="preview" />
+        <section style={{ display: "flex", justifyContent: "space-between" }}>
+          <Space>
+            <Button type="primary" style={{ width: 70 }} onClick={onClickSubmit}>
+              제출
+            </Button>
+            <Button onClick={onClickGoBack}>뒤로 가기</Button>
+          </Space>
+          <Button type="link" onClick={() => setIsModalOn(true)}>
+            양식 지우기
+          </Button>
+        </section>
       </Space>
-    </Space>
+      <Modal
+        centered
+        visible={isModalOn}
+        title="양식을 지우시겠습니까? 🫢"
+        onOk={onClickClearForm}
+        onCancel={() => setIsModalOn(false)}
+      >
+        <p>모든 질문에서 답변이 삭제되며 되돌릴 수 없습니다. 🫥</p>
+      </Modal>
+    </>
   );
 };

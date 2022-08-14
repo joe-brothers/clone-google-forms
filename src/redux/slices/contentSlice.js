@@ -189,6 +189,14 @@ export const contentSlice = createSlice({
         state.questions[indexQuestion].isError = true;
       else state.questions[indexQuestion].isError = false;
     },
+    // clear form
+    clearForm: (state) => {
+      for (let i = 0; i < state.questions.length; i++) {
+        state.questions[i].chosenOptions[0] = "";
+        state.questions[i].chosenOptions = [];
+        state.questions[i].etcInput = "";
+      }
+    },
     // drag & drop
     setIndexFrom: (state, action) => {
       const { indexFrom } = action.payload;
@@ -235,4 +243,5 @@ export const {
   setIndexFrom,
   setIndexTo,
   moveQuestion,
+  clearForm,
 } = contentSlice.actions;

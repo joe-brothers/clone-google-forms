@@ -38,21 +38,23 @@ export const CardContents = ({ typeContents }) => {
               {type === "textShort" && (
                 <Input
                   disabled={typeContents === "submit"}
-                  style={{ width: "50%" }}
+                  value={chosenOptions[0]}
                   placeholder={typeContents === "preview" && `내 답변`}
                   onChange={(e) => {
                     onChangeOptionText({ e, indexQuestion });
                   }}
+                  style={{ width: "50%" }}
                 />
               )}
               {type === "textLong" && (
                 <TextArea
                   disabled={typeContents === "submit"}
-                  autoSize
+                  value={chosenOptions[0]}
                   placeholder={typeContents === "preview" && `내 답변`}
                   onChange={(e) => {
                     onChangeOptionText({ e, indexQuestion });
                   }}
+                  autoSize
                 />
               )}
               {type === "radio" && (
