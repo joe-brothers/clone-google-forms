@@ -6,7 +6,7 @@ import "antd/dist/antd.min.css";
 export const SubmitPage = () => {
   return (
     <Space direction="vertical" size="large" style={{ display: "flex", width: 700, padding: "50px 30px" }}>
-      <CardTitle />
+      <CardTitle isSubmit={true}/>
       <CardContents typeContents="submit" />
     </Space>
   );
