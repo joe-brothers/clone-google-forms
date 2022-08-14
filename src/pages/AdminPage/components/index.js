@@ -1,4 +1,4 @@
-import { FormTitle } from "./FormTitle";
-import { FormContent } from "./FormContent";
+import { AdminTitle } from "./AdminTitle";
+import { AdminContent } from "./AdminContent";
 
-export { FormTitle, FormContent };
+export { AdminTitle, AdminContent };

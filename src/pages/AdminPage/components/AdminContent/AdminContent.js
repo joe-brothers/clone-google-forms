@@ -23,7 +23,7 @@ import { OptionChoices } from "./OptionChoices";
 const { Option } = Select;
 const { Text } = Typography;
 
-export const FormContent = () => {
+export const AdminContent = () => {
   const dispatch = useDispatch();
   const { questions, dragData } = useSelector((state) => state.formContent);
   // const dragData = useSelector((state) => state.dragData);
