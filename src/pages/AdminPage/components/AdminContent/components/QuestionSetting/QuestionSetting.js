@@ -10,9 +10,10 @@ import {
 import "antd/dist/antd.min.css";
 import { CopyOutlined, DeleteOutlined } from "@ant-design/icons";
 
-export const QuestionSetting = ({ indexQuestion, isRequired }) => {
+export const QuestionSetting = ({ indexQuestion }) => {
   const dispatch = useDispatch();
   const { questions } = useSelector((state) => state.formContent);
+  const { isRequired } = questions[indexQuestion];
 
   const onClickDuplicateQuestion = (e, index) => {
     e.stopPropagation();

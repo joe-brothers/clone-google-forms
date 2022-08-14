@@ -1,23 +1,12 @@
-import { useDispatch } from "react-redux";
-import {
-  clearChosenOptions,
-  updateErrorStatus,
-  updateEtcInput,
-  updateOptionRadio,
-} from "redux/slices/contentSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearChosenOptions, updateErrorStatus, updateEtcInput, updateOptionRadio } from "redux/slices/contentSlice";
 import { Space, Input, Radio, Button } from "antd";
 import "antd/dist/antd.min.css";
 
-export const OptionsRadio = ({
-  typeContents,
-  indexQuestion,
-  isRequired,
-  optionList,
-  chosenOptions,
-  hasEtc,
-  etcInput,
-}) => {
+export const OptionsRadio = ({ typeContents, indexQuestion }) => {
   const dispatch = useDispatch();
+  const { questions } = useSelector((state) => state.formContent);
+  const { isRequired, optionList, chosenOptions, hasEtc, etcInput } = questions[indexQuestion];
 
   const onChangeOptionRadio = ({ e, indexQuestion }) => {
     dispatch(updateOptionRadio({ index: indexQuestion, value: e.target.value }));

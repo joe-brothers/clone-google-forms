@@ -1,12 +1,14 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearChosenOptions, updateErrorStatus, updateOptionRadio } from "redux/slices/contentSlice";
 import { Space, Typography, Dropdown, Button, Menu } from "antd";
 import { CheckCircleTwoTone, DownOutlined } from "@ant-design/icons";
 import "antd/dist/antd.min.css";
 const { Text } = Typography;
 
-export const OptionsDropdown = ({ typeContents, indexQuestion, optionList, chosenOptions }) => {
+export const OptionsDropdown = ({ typeContents, indexQuestion }) => {
   const dispatch = useDispatch();
+  const { questions } = useSelector((state) => state.formContent);
+  const { optionList, chosenOptions } = questions[indexQuestion];
 
   const onSelectOptionDropdown = ({ value, indexQuestion }) => {
     dispatch(updateOptionRadio({ index: indexQuestion, value }));
@@ -55,8 +57,8 @@ export const OptionsDropdown = ({ typeContents, indexQuestion, optionList, chose
       )}
       {typeContents === "submit" && (
         <Space direction="vertical" style={{ width: "100%" }}>
-          {optionList.map((option) => (
-            <Space>
+          {optionList.map((option, index) => (
+            <Space key={`submit_dropdown_${index}`}>
               <Text>{option}</Text>
               {chosenOptions.includes(option) && <CheckCircleTwoTone />}
             </Space>

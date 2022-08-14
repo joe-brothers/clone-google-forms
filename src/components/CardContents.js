@@ -39,7 +39,7 @@ export const CardContents = ({ typeContents }) => {
                 <Input
                   disabled={typeContents === "submit"}
                   value={chosenOptions[0]}
-                  placeholder={typeContents === "preview" && `내 답변`}
+                  placeholder={typeContents === "preview" ? `내 답변` : ''}
                   onChange={(e) => {
                     onChangeOptionText({ e, indexQuestion });
                   }}
@@ -50,44 +50,16 @@ export const CardContents = ({ typeContents }) => {
                 <TextArea
                   disabled={typeContents === "submit"}
                   value={chosenOptions[0]}
-                  placeholder={typeContents === "preview" && `내 답변`}
+                  placeholder={typeContents === "preview" ? `내 답변` : ''}
                   onChange={(e) => {
                     onChangeOptionText({ e, indexQuestion });
                   }}
                   autoSize
                 />
               )}
-              {type === "radio" && (
-                <OptionsRadio
-                  typeContents={typeContents}
-                  indexQuestion={indexQuestion}
-                  isRequired={isRequired}
-                  optionList={optionList}
-                  chosenOptions={chosenOptions}
-                  hasEtc={hasEtc}
-                  etcInput={etcInput}
-                />
-              )}
-              {type === "checkbox" && (
-                <OptionsCheckbox
-                  typeContents={typeContents}
-                  indexQuestion={indexQuestion}
-                  optionList={optionList}
-                  chosenOptions={chosenOptions}
-                  hasEtc={hasEtc}
-                  etcInput={etcInput}
-                />
-              )}
-              {type === "dropdown" && (
-                <OptionsDropdown
-                  typeContents={typeContents}
-                  indexQuestion={indexQuestion}
-                  optionList={optionList}
-                  chosenOptions={chosenOptions}
-                  hasEtc={hasEtc}
-                  etcInput={etcInput}
-                />
-              )}
+              {type === "radio" && <OptionsRadio typeContents={typeContents} indexQuestion={indexQuestion} />}
+              {type === "checkbox" && <OptionsCheckbox typeContents={typeContents} indexQuestion={indexQuestion} />}
+              {type === "dropdown" && <OptionsDropdown typeContents={typeContents} indexQuestion={indexQuestion} />}
               {isError && (
                 <Space style={{ width: "100%", marginTop: 12 }}>
                   <ExclamationCircleOutlined style={{ fontSize: 20, color: "red" }} />

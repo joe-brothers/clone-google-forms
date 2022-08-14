@@ -1,10 +1,12 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateErrorStatus, updateEtcInput, updateOptionCheckbox } from "redux/slices/contentSlice";
 import { Space, Input, Checkbox } from "antd";
 import "antd/dist/antd.min.css";
 
-export const OptionsCheckbox = ({ typeContents, indexQuestion, optionList, chosenOptions, hasEtc, etcInput }) => {
+export const OptionsCheckbox = ({ typeContents, indexQuestion }) => {
   const dispatch = useDispatch();
+  const { questions } = useSelector((state) => state.formContent);
+  const { optionList, chosenOptions, hasEtc, etcInput } = questions[indexQuestion];
 
   const onChangeOptionCheckbox = ({ e, indexQuestion }) => {
     dispatch(
