@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fillDummyQuestions } from "redux/slices/contentSlice";
 import { AdminContent, AdminTitle } from "./components";
 import { Button, Space } from "antd";
 import "antd/dist/antd.min.css";
-import { fillDummyQuestions } from "../../redux/slices/contentSlice";
 
 export const AdminPage = () => {
   const navigate = useNavigate();

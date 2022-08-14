@@ -9,7 +9,7 @@ import {
   updateOptionCheckbox,
   updateOptionRadio,
   updateOptionText,
-} from "../../redux/slices/contentSlice";
+} from "redux/slices/contentSlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 const { Text, Title } = Typography;
 const { TextArea } = Input;

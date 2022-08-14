@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Space, Card, Typography, Select, Input, Checkbox, Radio, Button } from "antd";
-import "antd/dist/antd.min.css";
 import { CheckCircleTwoTone, CheckOutlined } from "@ant-design/icons";
+import "antd/dist/antd.min.css";
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;

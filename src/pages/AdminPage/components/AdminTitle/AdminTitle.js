@@ -1,21 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  focusTitleCard,
-  updateTitle,
-  updateDescription,
-} from "../../../../redux/slices/titleSlice";
-import { unfocusQuestionAt } from "../../../../redux/slices/contentSlice";
+import { focusTitleCard, updateTitle, updateDescription } from "redux/slices/titleSlice";
+import { unfocusQuestionAt } from "redux/slices/contentSlice";
+import { ButtonAddQuestion } from "../AdminContent/ButtonAddQuestion";
 import { Typography, Input, Card } from "antd";
 import { purple } from "@ant-design/colors";
 import "antd/dist/antd.min.css";
-import { ButtonAddQuestion } from "../AdminContent/ButtonAddQuestion";
 const { Text, Title } = Typography;
 
 export const AdminTitle = () => {
   const dispatch = useDispatch();
-  const { title, description, isFocused } = useSelector(
-    (state) => state.formTitle
-  );
+  const { title, description, isFocused } = useSelector((state) => state.formTitle);
   const { questions } = useSelector((state) => state.formContent);
 
   const unfocusAllQuestions = () => {

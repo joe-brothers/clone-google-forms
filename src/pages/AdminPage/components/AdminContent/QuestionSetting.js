@@ -6,7 +6,7 @@ import {
   removeQuestionAt,
   toggleRequiredAt,
   unfocusQuestionAt,
-} from "../../../../redux/slices/contentSlice";
+} from "redux/slices/contentSlice";
 import "antd/dist/antd.min.css";
 import { CopyOutlined, DeleteOutlined } from "@ant-design/icons";
 
@@ -25,9 +25,9 @@ export const QuestionSetting = ({ indexQuestion, isRequired }) => {
     dispatch(removeQuestionAt({ index }));
     // 왼쪽 하단에 알림창을 띄웁니다.
     notification.info({
-      message: '항목을 삭제했습니다.',
+      message: "항목을 삭제했습니다.",
       duration: 2,
-      placement: 'bottomLeft'
+      placement: "bottomLeft",
     });
     // 남은 질문 개수, 삭제한 질문의 인덱스에 따라 적절히 focus를 넣어줍니다.
     if (questions.length === 0) return;

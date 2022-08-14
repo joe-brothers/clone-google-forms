@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { unfocusTitleCard } from "../../../../redux/slices/titleSlice";
+import { unfocusTitleCard } from "redux/slices/titleSlice";
 import {
   focusQuestionAt,
   unfocusQuestionAt,
@@ -9,7 +9,7 @@ import {
   moveQuestion,
   setIndexFrom,
   setIndexTo,
-} from "../../../../redux/slices/contentSlice";
+} from "redux/slices/contentSlice";
 import { Space, Typography, Input, Button, Card, Select, Radio, Checkbox, Divider } from "antd";
 import { purple, grey } from "@ant-design/colors";
 import { OptionTextLong, OptionTextShort } from "./OptionText";

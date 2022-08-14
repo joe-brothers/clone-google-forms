@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { Button, Tooltip } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { addDefaultQuestionAt, unfocusQuestionAt } from "../../../../redux/slices/contentSlice";
-import { unfocusTitleCard } from "../../../../redux/slices/titleSlice";
+import { addDefaultQuestionAt, unfocusQuestionAt } from "redux/slices/contentSlice";
+import { unfocusTitleCard } from "redux/slices/titleSlice";
 
 export const ButtonAddQuestion = ({ indexQuestion, isTitle }) => {
   const dispatch = useDispatch();

@@ -1,18 +1,10 @@
 import { useDispatch } from "react-redux";
 import { CloseOutlined } from "@ant-design/icons";
 import { Input } from "antd";
-import {
-  changeNthOptionAt,
-  removeOptionAt,
-} from "../../../../redux/slices/contentSlice";
+import { changeNthOptionAt, removeOptionAt } from "redux/slices/contentSlice";
 import "antd/dist/antd.min.css";
 
-export const InputSentence = ({
-  optionList,
-  option,
-  indexOption,
-  indexQuestion,
-}) => {
+export const InputSentence = ({ optionList, option, indexOption, indexQuestion }) => {
   const dispatch = useDispatch();
 
   const onChangeOption = (e, indexQuestion, indexOption) => {
@@ -30,10 +22,7 @@ export const InputSentence = ({
 
   return (
     <>
-      <Input
-        value={option}
-        onChange={(e) => onChangeOption(e, indexQuestion, indexOption)}
-      />
+      <Input value={option} onChange={(e) => onChangeOption(e, indexQuestion, indexOption)} />
       {optionList.length > 1 && (
         <CloseOutlined
           style={{
