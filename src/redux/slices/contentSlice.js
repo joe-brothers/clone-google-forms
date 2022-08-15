@@ -3,6 +3,17 @@ import { createSlice } from "@reduxjs/toolkit";
 export const contentSlice = createSlice({
   name: "contentSlice",
   initialState: {
+    // questions: 질문들을 저장하는 배열
+    // title: 질문 제목
+    // optionList: 질문의 답변 옵션 목록
+    // hasEtc: 질문에 '기타' 옵션이 있는지 여부
+    // isRequired: 질문이 답변 '필수'인지 여부
+    // isFocused: 질문 카드의 포커스 여부
+    // chosenOptions: 선택한 답변
+    // (답변을 하나만 고를 수 있는 경우 chosenOptions[0]이 답변)
+    // (답변을 여러개 고를 수 있는 경우 모두 배열에 포함)
+    // etcInput: 기타 input칸에 입력한 내용
+    // isError: 질문카드 에러 여부 (필수인데 답변 없을시 에러)
     questions: [
       {
         title: "제목없는 질문",

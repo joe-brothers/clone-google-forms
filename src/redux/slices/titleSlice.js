@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const titleSlice = createSlice({
   name: "titleSlice",
   initialState: {
+    // title: 설문지 제목
+    // description: 설문지 설명
+    // isFocused: 설문지 제목&설명 카드 포커스 여부
     title: "제목 없는 설문지",
     description: "",
     isFocused: false,
