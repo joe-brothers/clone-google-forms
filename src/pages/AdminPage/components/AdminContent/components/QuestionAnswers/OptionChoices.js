@@ -1,7 +1,8 @@
+import { OptionChoiceUnit } from "./OptionChoiceUnit";
 import { Space, Typography } from "antd";
-import { InputSentence } from "./InputSentence";
 const { Text } = Typography;
 
+// 옵션 목록 컴포넌트 (라디오, 체크박스에서 사용)
 export const OptionChoices = ({
   ComponentToCheck,
   optionList,
@@ -17,7 +18,7 @@ export const OptionChoices = ({
         >
           {ComponentToCheck}
           {isFocused ? (
-            <InputSentence
+            <OptionChoiceUnit
               optionList={optionList}
               option={option}
               indexOption={indexOption}

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateErrorStatus, updateOptionText } from "redux/slices/contentSlice";
 import { Space, Card, Typography, Select, Input } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import "antd/dist/antd.min.css";
+
 import { OptionsRadio } from "./OptionsRadio";
 import { OptionsCheckbox } from "./OptionsCheckbox";
 import { OptionsDropdown } from "./OptionsDropdown";
@@ -39,7 +39,7 @@ export const CardContents = ({ typeContents }) => {
                 <Input
                   disabled={typeContents === "submit"}
                   value={chosenOptions[0]}
-                  placeholder={typeContents === "preview" ? `내 답변` : ''}
+                  placeholder={typeContents === "preview" ? `내 답변` : ""}
                   onChange={(e) => {
                     onChangeOptionText({ e, indexQuestion });
                   }}
@@ -50,7 +50,7 @@ export const CardContents = ({ typeContents }) => {
                 <TextArea
                   disabled={typeContents === "submit"}
                   value={chosenOptions[0]}
-                  placeholder={typeContents === "preview" ? `내 답변` : ''}
+                  placeholder={typeContents === "preview" ? `내 답변` : ""}
                   onChange={(e) => {
                     onChangeOptionText({ e, indexQuestion });
                   }}

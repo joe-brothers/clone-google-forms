@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { clearChosenOptions, updateErrorStatus, updateOptionRadio } from "redux/slices/contentSlice";
+import { clearChosenOptions, updateErrorStatus, updateOptionRadioOrDropdown } from "redux/slices/contentSlice";
 import { Space, Typography, Dropdown, Button, Menu } from "antd";
 import { CheckCircleTwoTone, DownOutlined } from "@ant-design/icons";
-import "antd/dist/antd.min.css";
+
 const { Text } = Typography;
 
 export const OptionsDropdown = ({ typeContents, indexQuestion }) => {
@@ -11,7 +11,7 @@ export const OptionsDropdown = ({ typeContents, indexQuestion }) => {
   const { optionList, chosenOptions } = questions[indexQuestion];
 
   const onSelectOptionDropdown = ({ value, indexQuestion }) => {
-    dispatch(updateOptionRadio({ index: indexQuestion, value }));
+    dispatch(updateOptionRadioOrDropdown({ index: indexQuestion, value }));
     dispatch(updateErrorStatus({ indexQuestion }));
   };
   const onClearChosenOptions = ({ indexQuestion }) => {

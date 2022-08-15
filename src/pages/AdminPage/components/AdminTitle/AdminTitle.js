@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { focusTitleCard, updateTitle, updateDescription } from "redux/slices/titleSlice";
-import { unfocusQuestionAt } from "redux/slices/contentSlice";
+import { updateTitle, updateDescription, setFocusedTitleCard } from "redux/slices/titleSlice";
+import { setFocusedQuestionAt } from "redux/slices/contentSlice";
 import { ButtonAddQuestion } from "../AdminContent/ButtonAddQuestion";
 import { Typography, Input, Card } from "antd";
 import { purple } from "@ant-design/colors";
-import "antd/dist/antd.min.css";
 const { Text, Title } = Typography;
 
 export const AdminTitle = () => {
@@ -12,10 +11,11 @@ export const AdminTitle = () => {
   const { title, description, isFocused } = useSelector((state) => state.formTitle);
   const { questions } = useSelector((state) => state.formContent);
 
+  // 모든 질문 카드의 포커스를 없애는 함수
   const unfocusAllQuestions = () => {
     if (questions.length === 0) return;
     [...Array(questions.length).keys()].forEach((index) => {
-      dispatch(unfocusQuestionAt({ index }));
+      dispatch(setFocusedQuestionAt({ index, focused: false }));
     });
   };
 
@@ -29,7 +29,7 @@ export const AdminTitle = () => {
       }}
       onClick={() => {
         unfocusAllQuestions();
-        dispatch(focusTitleCard());
+        dispatch(setFocusedTitleCard(true));
       }}
     >
       {isFocused ? (

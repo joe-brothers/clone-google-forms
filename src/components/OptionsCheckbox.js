@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { updateErrorStatus, updateEtcInput, updateOptionCheckbox } from "redux/slices/contentSlice";
 import { Space, Input, Checkbox } from "antd";
-import "antd/dist/antd.min.css";
 
 export const OptionsCheckbox = ({ typeContents, indexQuestion }) => {
   const dispatch = useDispatch();

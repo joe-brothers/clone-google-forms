@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { changeQuestionType, changeTitleAt } from "redux/slices/contentSlice";
-import { Space, Typography, Input, Button, Dropdown, Menu } from "antd";
 import { questionTypeMenuItems, typeMatchObject } from "utils/objects";
+import { Space, Typography, Input, Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 
@@ -10,10 +10,12 @@ export const QuestionTitle = ({ indexQuestion }) => {
   const { questions } = useSelector((state) => state.formContent);
   const { title, type, isFocused, isRequired } = questions[indexQuestion];
 
+  // 질문카드의 제목을 바꿀 때 실행되는 함수
   const onChangeTitle = (e, index) => {
     dispatch(changeTitleAt({ index, title: e.target.value }));
   };
 
+  // 질문카드 유형(단답형/장문형/..)을 보여줄 드롭다운 메뉴를 리턴하는 함수
   const questionTypeMenu = ({ indexQuestion }) => {
     return (
       <Menu

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { unfocusTitleCard } from "redux/slices/titleSlice";
-import { focusQuestionAt, unfocusQuestionAt, moveQuestion } from "redux/slices/contentSlice";
+import { setFocusedTitleCard } from "redux/slices/titleSlice";
+import { moveQuestion, setFocusedQuestionAt } from "redux/slices/contentSlice";
 import { SortableContainer, SortableElement, SortableHandle } from "react-sortable-hoc";
 import { QuestionSetting } from "./components/QuestionSetting";
 import { QuestionTitle } from "./components/QuestionTitle";
@@ -9,7 +9,6 @@ import { ButtonAddQuestion } from "./ButtonAddQuestion";
 import { Space, Card } from "antd";
 import { purple } from "@ant-design/colors";
 import { HolderOutlined } from "@ant-design/icons";
-import "antd/dist/antd.min.css";
 
 const DragHandle = SortableHandle(() => (
   <HolderOutlined
@@ -25,7 +24,6 @@ const SortableList = SortableContainer(({ children }) => {
 const SortableItem = SortableElement(({ isFocused, indexQuestion, onClick }) => {
   return (
     <Card
-      // key={`question_${indexQuestion}`}
       style={{
         position: "relative",
         boxShadow: `rgb(0 0 0 / ${isFocused ? 15 : 5}%) 0px 0px 10px 5px`,
@@ -50,19 +48,22 @@ export const AdminContent = () => {
   const dispatch = useDispatch();
   const { questions } = useSelector((state) => state.formContent);
 
+  // 모든 질문 카드의 포커스를 없애는 함수
   const unfocusAllQuestions = () => {
     if (questions.length === 0) return;
     [...Array(questions.length).keys()].forEach((index) => {
-      dispatch(unfocusQuestionAt({ index }));
+      dispatch(setFocusedQuestionAt({ index, focused: false }));
     });
   };
 
+  // 질문 카드를 눌렀을 때 해당 질문 카드에 포커스를 주는 함수
   const onClickQuestion = ({ index }) => {
-    dispatch(unfocusTitleCard());
+    dispatch(setFocusedTitleCard(false));
     unfocusAllQuestions();
-    dispatch(focusQuestionAt({ index }));
+    dispatch(setFocusedQuestionAt({ index, focused: true }));
   };
 
+  // 드래그앤 드롭으로 질문을 이동했을 때 실행되는 함수
   const onSortEndQuestion = ({ oldIndex, newIndex }) => {
     dispatch(moveQuestion({ oldIndex, newIndex }));
   };

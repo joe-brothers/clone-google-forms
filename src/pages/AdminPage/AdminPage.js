@@ -3,16 +3,17 @@ import { useDispatch } from "react-redux";
 import { fillDummyQuestions } from "redux/slices/contentSlice";
 import { AdminContent, AdminTitle } from "./components";
 import { Button, Space } from "antd";
-import "antd/dist/antd.min.css";
 
 export const AdminPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // '미리보기' 버튼을 눌렀을 때 실행되는 함수
   const onClickPreview = () => {
     navigate("/preview");
   };
 
+  // '더미 데이터 채우기' 버튼을 눌렀을 때 실행되는 함수
   const onClickFillDummyData = () => {
     dispatch(fillDummyQuestions());
   };

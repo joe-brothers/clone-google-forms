@@ -1,22 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
-import { addOptionAt } from "redux/slices/contentSlice";
+import { useSelector } from "react-redux";
 import { OptionTextShort, OptionTextLong } from "./OptionText";
-import { AddOptionOrEtc } from "./AddOptionOrEtc";
-import { InputSentence } from "./InputSentence";
+import { OptionAddChoiceOrEtc } from "./OptionAddChoiceOrEtc";
+import { OptionAddChoice } from "./OptionAddChoice";
+import { OptionChoiceUnit } from "./OptionChoiceUnit";
 import { OptionChoices } from "./OptionChoices";
-import { EtcChoice } from "./EtcChoice";
-import { Space, Typography, Button, Radio, Checkbox } from "antd";
-import "antd/dist/antd.min.css";
+import { OptionEtc } from "./OptionEtc";
+import { Space, Typography, Radio, Checkbox } from "antd";
 const { Text } = Typography;
 
+// 질문 카드 유형에 따라 적절한 답변 옵션 목록을 반환하는 컴포넌트
 export const QuestionAnswers = ({ indexQuestion }) => {
-  const dispatch = useDispatch();
   const { questions } = useSelector((state) => state.formContent);
   const { type, optionList, isFocused, hasEtc } = questions[indexQuestion];
-
-  const onClickAddOption = (index) => {
-    dispatch(addOptionAt({ index }));
-  };
 
   if (type === "textShort") return <OptionTextShort />;
   if (type === "textLong") return <OptionTextLong />;
@@ -29,8 +24,10 @@ export const QuestionAnswers = ({ indexQuestion }) => {
           indexQuestion={indexQuestion}
           isFocused={isFocused}
         />
-        {hasEtc && <EtcChoice ComponentToCheck={<Radio disabled />} isFocused={isFocused} index={indexQuestion} />}
-        {isFocused && <AddOptionOrEtc ComponentToCheck={<Radio disabled />} hasEtc={hasEtc} index={indexQuestion} />}
+        {hasEtc && <OptionEtc ComponentToCheck={<Radio disabled />} isFocused={isFocused} index={indexQuestion} />}
+        {isFocused && (
+          <OptionAddChoiceOrEtc ComponentToCheck={<Radio disabled />} hasEtc={hasEtc} index={indexQuestion} />
+        )}
       </Space>
     );
   if (type === "checkbox")
@@ -42,8 +39,10 @@ export const QuestionAnswers = ({ indexQuestion }) => {
           indexQuestion={indexQuestion}
           isFocused={isFocused}
         />
-        {hasEtc && <EtcChoice ComponentToCheck={<Checkbox disabled />} isFocused={isFocused} index={indexQuestion} />}
-        {isFocused && <AddOptionOrEtc ComponentToCheck={<Checkbox disabled />} hasEtc={hasEtc} index={indexQuestion} />}
+        {hasEtc && <OptionEtc ComponentToCheck={<Checkbox disabled />} isFocused={isFocused} index={indexQuestion} />}
+        {isFocused && (
+          <OptionAddChoiceOrEtc ComponentToCheck={<Checkbox disabled />} hasEtc={hasEtc} index={indexQuestion} />
+        )}
       </Space>
     );
   if (type === "dropdown")
@@ -53,7 +52,7 @@ export const QuestionAnswers = ({ indexQuestion }) => {
           <Space style={{ fontSize: 14 }} key={`q_${indexQuestion}_${indexOption}`}>
             <Text>{indexOption + 1}</Text>
             {isFocused ? (
-              <InputSentence
+              <OptionChoiceUnit
                 optionList={optionList}
                 option={option}
                 indexOption={indexOption}
@@ -64,14 +63,7 @@ export const QuestionAnswers = ({ indexQuestion }) => {
             )}
           </Space>
         ))}
-        {isFocused && (
-          <Space>
-            <Text>{optionList.length + 1}</Text>
-            <Button type="dashed" onClick={() => onClickAddOption(indexQuestion)}>
-              옵션 추가
-            </Button>
-          </Space>
-        )}
+        {isFocused && <OptionAddChoice ComponentToCheck={<Text>{optionList.length + 1}</Text>} index={indexQuestion} />}
       </Space>
     );
 };

@@ -8,16 +8,16 @@ export const titleSlice = createSlice({
     isFocused: false,
   },
   reducers: {
-    focusTitleCard: (state) => {
-      state.isFocused = true;
+    // AdminPage - 설문지 제목 카드의 포커스 상태를 설정하는 함수
+    setFocusedTitleCard: (state, action) => {
+      state.isFocused = action.payload;
     },
-    unfocusTitleCard: (state) => {
-      state.isFocused = false;
-    },
+    // AdminPage - 설문지 제목의 내용을 업데이트하는 함수
     updateTitle: (state, action) => {
       const { title } = action.payload;
       state.title = title;
     },
+    // AdminPage - 설문지 설명의 내용을 업데이트하는 함수
     updateDescription: (state, action) => {
       const { description } = action.payload;
       state.description = description;
@@ -25,9 +25,4 @@ export const titleSlice = createSlice({
   },
 });
 
-export const {
-  focusTitleCard,
-  unfocusTitleCard,
-  updateTitle,
-  updateDescription,
-} = titleSlice.actions;
+export const { setFocusedTitleCard, updateTitle, updateDescription } = titleSlice.actions;

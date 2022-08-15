@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { checkFormHasRequired } from "utils/functions";
 import { Card, Typography } from "antd";
-import "antd/dist/antd.min.css";
+
 const { Text, Title } = Typography;
 
 export const CardTitle = ({ isSubmit }) => {
@@ -16,7 +16,10 @@ export const CardTitle = ({ isSubmit }) => {
         boxShadow: `rgb(0 0 0 / 5%) 0px 0px 10px 5px`,
       }}
     >
-      <Title level={2}>{isSubmit && '[제출완료] '}{title}</Title>
+      <Title level={2}>
+        {isSubmit && "[제출완료] "}
+        {title}
+      </Title>
       <Text>{description}</Text>
       {checkFormHasRequired(questions) && (
         <Text type="danger" style={{ display: "block", marginTop: 8 }}>

@@ -1,14 +1,18 @@
-import { Button, Space } from "antd";
 import { useDispatch } from "react-redux";
-import { addEtcOfOptionAt, addOptionAt } from "redux/slices/contentSlice";
+import { addOptionAt, setEtcAt } from "redux/slices/contentSlice";
+import { Button, Space } from "antd";
 
-export const AddOptionOrEtc = ({ ComponentToCheck, hasEtc, index }) => {
+// 옵션 및 기타 추가 컴포넌트 (라디오, 체크박스에 사용)
+export const OptionAddChoiceOrEtc = ({ ComponentToCheck, hasEtc, index }) => {
   const dispatch = useDispatch();
+
+  // '옵션 추가' 버튼을 눌렀을 때 실행되는 함수
   const onClickAddOption = (index) => {
     dispatch(addOptionAt({ index }));
   };
+  // '기타 추가' 버튼을 눌렀을 때 실행되는 함수
   const onClickAddEtc = (index) => {
-    dispatch(addEtcOfOptionAt({ index }));
+    dispatch(setEtcAt({ index, hasEtc: true }));
   };
 
   return (

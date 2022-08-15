@@ -1,13 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Divider, notification, Space, Switch, Tooltip } from "antd";
 import {
   duplicateQuestionAt,
-  focusQuestionAt,
   removeQuestionAt,
+  setFocusedQuestionAt,
   toggleRequiredAt,
-  unfocusQuestionAt,
 } from "redux/slices/contentSlice";
-import "antd/dist/antd.min.css";
+import { Button, Divider, notification, Space, Switch, Tooltip } from "antd";
 import { CopyOutlined, DeleteOutlined } from "@ant-design/icons";
 
 export const QuestionSetting = ({ indexQuestion }) => {
@@ -15,11 +13,14 @@ export const QuestionSetting = ({ indexQuestion }) => {
   const { questions } = useSelector((state) => state.formContent);
   const { isRequired } = questions[indexQuestion];
 
+  // 질문 복제 버튼을 눌렀을 때 실행되는 함수
   const onClickDuplicateQuestion = (e, index) => {
     e.stopPropagation();
     dispatch(duplicateQuestionAt({ index }));
-    dispatch(unfocusQuestionAt({ index }));
+    dispatch(setFocusedQuestionAt({ index, focused: false }));
   };
+
+  // 질문 삭제 버튼을 눌렀을 때 실행되는 함수
   const onClickRemoveQuestion = (e, index) => {
     e.stopPropagation();
     // 질문을 삭제합니다.
@@ -32,9 +33,11 @@ export const QuestionSetting = ({ indexQuestion }) => {
     });
     // 남은 질문 개수, 삭제한 질문의 인덱스에 따라 적절히 focus를 넣어줍니다.
     if (questions.length === 0) return;
-    if (index === 0) dispatch(focusQuestionAt({ index: 0 }));
-    else dispatch(focusQuestionAt({ index: index - 1 }));
+    if (index === 0) dispatch(setFocusedQuestionAt({ index: 0, focused: true }));
+    else dispatch(setFocusedQuestionAt({ index: index - 1, focused: true }));
   };
+
+  // 필수 여부를 변경했을 때 실행되는 함수
   const onChangeRequired = (index) => {
     dispatch(toggleRequiredAt({ index }));
   };
