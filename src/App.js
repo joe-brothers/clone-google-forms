@@ -3,7 +3,7 @@ import { AdminPage, PreviewPage, SubmitPage } from "./pages";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/" element={<AdminPage />} />
         <Route path="preview" element={<PreviewPage />} />

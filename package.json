@@ -1,7 +1,8 @@
 {
   "name": "clone-google-forms",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "homepage": "https://choar816.github.io/clone-google-forms",
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.7.0",
