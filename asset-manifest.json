@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/clone-google-forms/static/css/main.02a6e77a.css",
+    "main.js": "/clone-google-forms/static/js/main.9b19e08f.js",
+    "index.html": "/clone-google-forms/index.html",
+    "main.02a6e77a.css.map": "/clone-google-forms/static/css/main.02a6e77a.css.map",
+    "main.9b19e08f.js.map": "/clone-google-forms/static/js/main.9b19e08f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.02a6e77a.css",
+    "static/js/main.9b19e08f.js"
+  ]
+}
