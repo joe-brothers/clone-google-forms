@@ -3,7 +3,11 @@
 Google Forms를 클론한 프로젝트입니다.
 
 ## 사용 기술
-- `React`, `JavaScript`, `Redux Toolkit`, `React Router`, `Ant Design`
+![React](https://img.shields.io/badge/React-61DAFB?logo=React&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=JavaScript&logoColor=black)
+![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?logo=Redux)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?logo=ReactRouter&logoColor=white)
+![Ant Design](https://img.shields.io/badge/Ant_Design-0170FE?logo=AntDesign)
 - 반응형 디자인
 
 ## 과제 설명
